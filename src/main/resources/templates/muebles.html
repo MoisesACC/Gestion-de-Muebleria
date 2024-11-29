@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Muebles</title>
+</head>
+<body>
+    <h1>Lista de Muebles</h1>
+    <a href="/muebles/create">Crear Mueble</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="mueble : ${muebles}">
+                <td th:text="${mueble.nombre}"></td>
+                <td th:text="${mueble.descripcion}"></td>
+                <td th:text="${mueble.precio}"></td>
+                <td>
+                    <a th:href="@{/muebles/edit/{id}(id=${mueble.id})}">Editar</a>
+                    <a th:href="@{/muebles/delete/{id}(id=${mueble.id})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

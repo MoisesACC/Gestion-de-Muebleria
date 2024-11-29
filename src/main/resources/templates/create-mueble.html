@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear Mueble</title>
+</head>
+<body>
+    <h1>Crear Nuevo Mueble</h1>
+    <form action="/muebles/create" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required>
+        <br>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" name="descripcion" id="descripcion">
+        <br>
+        <label for="precio">Precio:</label>
+        <input type="number" step="0.01" name="precio" id="precio" required>
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="/muebles">Cancelar</a>
+</body>
+</html>
