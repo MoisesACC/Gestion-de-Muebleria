@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -26,8 +27,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registrarUsuario(Usuario usuario) {
-        usuarioService.registrarUsuario(usuario);
-        return "redirect:/login";
+    public String registrarUsuario(@ModelAttribute Usuario usuario, Model model) {
+        try {
+            usuarioService.registrarUsuario(usuario);
+            return "redirect:/login"; // Redirige al login después de registrar
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al registrar el usuario: " + e.getMessage());
+            return "registro";
+        }
     }
 }
