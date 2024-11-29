@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Lista de Muebles</h1>
-    <a href="/muebles/create">Crear Mueble</a>
+    <a href="/muebles/create-mueble">Crear Mueble</a>
     <table>
         <thead>
             <tr>
@@ -21,8 +21,8 @@
                 <td th:text="${mueble.descripcion}"></td>
                 <td th:text="${mueble.precio}"></td>
                 <td>
-                    <a th:href="@{/muebles/edit/{id}(id=${mueble.id})}">Editar</a>
-                    <a th:href="@{/muebles/delete/{id}(id=${mueble.id})}">Eliminar</a>
+                    <a th:href="@{/muebles/editar/{id}(id=${mueble.id})}">Editar</a>
+                    <a th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">Eliminar</a>
                 </td>
             </tr>
         </tbody>

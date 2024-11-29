@@ -20,13 +20,13 @@ public class MuebleController {
         return "muebles";
     }
 
-    @GetMapping("/crear")
+    @GetMapping("/create-mueble")
     public String mostrarFormularioCrear(Model model) {
         model.addAttribute("mueble", new Mueble());
-        return "crear-mueble";
+        return "create-mueble";
     }
 
-    @PostMapping
+    @PostMapping("/save-mueble")
     public String guardarMueble(Mueble mueble) {
         muebleService.guardarMueble(mueble);
         return "redirect:/muebles";
@@ -35,7 +35,7 @@ public class MuebleController {
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
         model.addAttribute("mueble", muebleService.obtenerMueblePorId(id));
-        return "crear-mueble";
+        return "edit-mueble";
     }
 
     @GetMapping("/eliminar/{id}")
