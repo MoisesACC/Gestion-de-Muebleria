@@ -20,8 +20,11 @@ public class Mueble {
 
     @Column(nullable = false)
     private double precio;
+<<<<<<< HEAD
     
     // Nuevo campo para la imagen (URL o ruta local)
     @Column
     private String imagen;
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
 }

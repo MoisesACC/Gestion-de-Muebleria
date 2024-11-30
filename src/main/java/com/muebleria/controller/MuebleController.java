@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,8 @@ import java.nio.file.Files;
 
 
 
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
 @Controller
 @RequestMapping("/muebles")
 public class MuebleController {
@@ -23,7 +26,10 @@ public class MuebleController {
     @Autowired
     private MuebleService muebleService;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
     @GetMapping
     public String listarMuebles(Model model) {
         model.addAttribute("muebles", muebleService.listarMuebles());
@@ -37,6 +43,7 @@ public class MuebleController {
     }
 
     @PostMapping("/save-mueble")
+<<<<<<< HEAD
     public String guardarMueble(@RequestParam("nombre") String nombre,
                                 @RequestParam("descripcion") String descripcion,
                                 @RequestParam("precio") double precio,
@@ -66,6 +73,16 @@ public class MuebleController {
             return "redirect:/muebles"; // Redirige si no se encuentra el mueble
         }
         model.addAttribute("mueble", mueble);
+=======
+    public String guardarMueble(Mueble mueble) {
+        muebleService.guardarMueble(mueble);
+        return "redirect:/muebles";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        model.addAttribute("mueble", muebleService.obtenerMueblePorId(id));
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
         return "edit-mueble";
     }
 
@@ -74,6 +91,7 @@ public class MuebleController {
         muebleService.eliminarMueble(id);
         return "redirect:/muebles";
     }
+<<<<<<< HEAD
     
  // Método para la página de inicio
     @GetMapping("/inicio")
@@ -81,4 +99,6 @@ public class MuebleController {
         return "inicio";  // Esto devolverá el archivo 'inicio.html'
     }
    
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
 }

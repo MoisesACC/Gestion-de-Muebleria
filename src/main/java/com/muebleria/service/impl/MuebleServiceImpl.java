@@ -21,6 +21,7 @@ public class MuebleServiceImpl implements MuebleService {
 
     @Override
     public Mueble guardarMueble(Mueble mueble) {
+<<<<<<< HEAD
         if (mueble.getId() != null) {
             // Si el mueble tiene un ID, lo actualizamos
             Mueble muebleExistente = muebleRepository.findById(mueble.getId()).orElse(null);
@@ -39,6 +40,11 @@ public class MuebleServiceImpl implements MuebleService {
     }
 
 
+=======
+        return muebleRepository.save(mueble);
+    }
+
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
     @Override
     public Mueble obtenerMueblePorId(Long id) {
         return muebleRepository.findById(id).orElse(null);
