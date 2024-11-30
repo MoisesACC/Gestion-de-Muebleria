@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<<<<<<< HEAD
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Muebles</title>
@@ -38,11 +38,7 @@
             background-color: #0056b3;
         }
     </style>
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Muebles</title>
@@ -145,15 +141,12 @@
 
     <!-- Enlace a Bootstrap JS y dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<<<<<<< HEAD
 
-=======
-=======
     <title>Muebles</title>
->>>>>>> branch 'master' of https://github.com/MoisesACC/Gestion-de-Muebleria.git
+
 </head>
 <body>
-<<<<<<< HEAD
+
 
     <!-- Navbar de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -218,32 +211,6 @@
 
     <!-- Enlace a Bootstrap JS y dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-=======
-    <h1>Lista de Muebles</h1>
-    <a href="/muebles/create-mueble">Crear Mueble</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="mueble : ${muebles}">
-                <td th:text="${mueble.nombre}"></td>
-                <td th:text="${mueble.descripcion}"></td>
-                <td th:text="${mueble.precio}"></td>
-                <td>
-                    <a th:href="@{/muebles/editar/{id}(id=${mueble.id})}">Editar</a>
-                    <a th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">Eliminar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
->>>>>>> branch 'master' of https://github.com/MoisesACC/Gestion-de-Muebleria.git
-</body>
+
 </html>
->>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
+
