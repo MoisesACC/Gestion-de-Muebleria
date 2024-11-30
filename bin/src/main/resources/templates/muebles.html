@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<<<<<<< HEAD
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Muebles</title>
+
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-top: 20px;
+            text-align: center;
+        }
+        table {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Gestión de Muebles</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/muebles/inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Galería</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Nosotros</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container" style="
+    max-width: 1460px;
+">
+        <h1>Lista de Muebles</h1>
+        <a href="/muebles/create-mueble" class="btn btn-custom">Crear Mueble</a>
+
+        <!-- Tabla de muebles -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                 	<th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="mueble : ${muebles}">
+                 	<td th:text="${mueble.id}"></td>
+                    <td th:text="${mueble.nombre}"></td>
+                    <td th:text="${mueble.descripcion}"></td>
+                    <td th:text="'S/. ' + ${mueble.precio}"></td>
+                     <td>
+            <!-- Mostrar imagen -->
+            <img th:if="${mueble.imagen}" th:src="@{${mueble.imagen}}" alt="Imagen Mueble" width="50">
+        </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" th:href="@{/muebles/editar/{id}(id=${mueble.id})}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Enlace a Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+=======
+    <title>Muebles</title>
+</head>
+<body>
+    <h1>Lista de Muebles</h1>
+    <a href="/muebles/create-mueble">Crear Mueble</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="mueble : ${muebles}">
+                <td th:text="${mueble.nombre}"></td>
+                <td th:text="${mueble.descripcion}"></td>
+                <td th:text="${mueble.precio}"></td>
+                <td>
+                    <a th:href="@{/muebles/editar/{id}(id=${mueble.id})}">Editar</a>
+                    <a th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
+</body>
+</html>
