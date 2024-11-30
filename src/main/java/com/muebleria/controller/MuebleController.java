@@ -7,12 +7,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.Files;
+
+
+
+
 @Controller
 @RequestMapping("/muebles")
 public class MuebleController {
 
     @Autowired
     private MuebleService muebleService;
+
 
     @GetMapping
     public String listarMuebles(Model model) {
@@ -27,14 +37,35 @@ public class MuebleController {
     }
 
     @PostMapping("/save-mueble")
-    public String guardarMueble(Mueble mueble) {
-        muebleService.guardarMueble(mueble);
-        return "redirect:/muebles";
+    public String guardarMueble(@RequestParam("nombre") String nombre,
+                                @RequestParam("descripcion") String descripcion,
+                                @RequestParam("precio") double precio,
+                                @RequestParam("imagen") MultipartFile imagen) throws IOException {
+
+        // Guardar la imagen en una carpeta local
+        String imagenNombre = imagen.getOriginalFilename();
+        Path ruta = Paths.get("src/main/resources/static/imagenes/" + imagenNombre); // La carpeta 'imagenes' debe existir
+        Files.write(ruta, imagen.getBytes()); // Guardar la imagen
+
+        // Crear el mueble y asignar la ruta de la imagen
+        Mueble mueble = new Mueble();
+        mueble.setNombre(nombre);
+        mueble.setDescripcion(descripcion);
+        mueble.setPrecio(precio);
+        mueble.setImagen("/imagenes/" + imagenNombre); // Ruta de la imagen en el servidor
+
+        muebleService.guardarMueble(mueble); // Guardar el mueble
+        return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
     }
+
 
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
-        model.addAttribute("mueble", muebleService.obtenerMueblePorId(id));
+        Mueble mueble = muebleService.obtenerMueblePorId(id);
+        if (mueble == null) {
+            return "redirect:/muebles"; // Redirige si no se encuentra el mueble
+        }
+        model.addAttribute("mueble", mueble);
         return "edit-mueble";
     }
 
@@ -43,4 +74,11 @@ public class MuebleController {
         muebleService.eliminarMueble(id);
         return "redirect:/muebles";
     }
+    
+ // Método para la página de inicio
+    @GetMapping("/inicio")
+    public String mostrarPaginaInicio() {
+        return "inicio";  // Esto devolverá el archivo 'inicio.html'
+    }
+   
 }

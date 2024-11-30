@@ -21,8 +21,23 @@ public class MuebleServiceImpl implements MuebleService {
 
     @Override
     public Mueble guardarMueble(Mueble mueble) {
+        if (mueble.getId() != null) {
+            // Si el mueble tiene un ID, lo actualizamos
+            Mueble muebleExistente = muebleRepository.findById(mueble.getId()).orElse(null);
+            if (muebleExistente != null) {
+                // Actualizamos los campos con los nuevos valores
+                muebleExistente.setNombre(mueble.getNombre());
+                muebleExistente.setPrecio(mueble.getPrecio());
+                muebleExistente.setDescripcion(mueble.getDescripcion());
+                muebleExistente.setImagen(mueble.getImagen());
+                // Guardamos el mueble actualizado
+                return muebleRepository.save(muebleExistente);
+            }
+        }
+        // Si no tiene ID, lo guardamos como un nuevo mueble
         return muebleRepository.save(mueble);
     }
+
 
     @Override
     public Mueble obtenerMueblePorId(Long id) {
