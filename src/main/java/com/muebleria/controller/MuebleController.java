@@ -6,13 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
 
+=======
+
+<<<<<<< HEAD
+import org.springframework.web.multipart.MultipartFile;
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.Files;
 
+<<<<<<< HEAD
+=======
+
+
+
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
 @Controller
 @RequestMapping("/muebles")
 public class MuebleController {
@@ -20,6 +34,13 @@ public class MuebleController {
     @Autowired
     private MuebleService muebleService;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
     @GetMapping
     public String listarMuebles(Model model) {
         model.addAttribute("muebles", muebleService.listarMuebles());
@@ -33,6 +54,10 @@ public class MuebleController {
     }
 
     @PostMapping("/save-mueble")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
     public String guardarMueble(@RequestParam("nombre") String nombre,
                                 @RequestParam("descripcion") String descripcion,
                                 @RequestParam("precio") double precio,
@@ -54,6 +79,10 @@ public class MuebleController {
         return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
         Mueble mueble = muebleService.obtenerMueblePorId(id);
@@ -61,6 +90,7 @@ public class MuebleController {
             return "redirect:/muebles"; // Redirige si no se encuentra el mueble
         }
         model.addAttribute("mueble", mueble);
+<<<<<<< HEAD
         return "edit-mueble";
     }
 
@@ -90,6 +120,19 @@ public class MuebleController {
 
         muebleService.guardarMueble(muebleExistente); // Guardar el mueble actualizado
         return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
+=======
+=======
+    public String guardarMueble(Mueble mueble) {
+        muebleService.guardarMueble(mueble);
+        return "redirect:/muebles";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        model.addAttribute("mueble", muebleService.obtenerMueblePorId(id));
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
+        return "edit-mueble";
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
     }
 
     @GetMapping("/eliminar/{id}")
@@ -97,10 +140,22 @@ public class MuebleController {
         muebleService.eliminarMueble(id);
         return "redirect:/muebles";
     }
+<<<<<<< HEAD
 
     // Método para la página de inicio
+=======
+<<<<<<< HEAD
+    
+ // Método para la página de inicio
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
     @GetMapping("/inicio")
     public String mostrarPaginaInicio() {
         return "inicio";  // Esto devolverá el archivo 'inicio.html'
     }
+<<<<<<< HEAD
+=======
+   
+=======
+>>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
+>>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
 }
