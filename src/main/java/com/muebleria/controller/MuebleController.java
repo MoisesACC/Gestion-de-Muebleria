@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.io.IOException;
 import java.nio.file.Files;
-
 @Controller
 @RequestMapping("/muebles")
 public class MuebleController {
@@ -22,9 +22,13 @@ public class MuebleController {
 
     @GetMapping
     public String listarMuebles(Model model) {
-        model.addAttribute("muebles", muebleService.listarMuebles());
+        List<Mueble> muebles = muebleService.listarMuebles();
+        System.out.println("Lista de muebles: " + muebles.size());  // Esto te dirá cuántos muebles tienes
+        model.addAttribute("muebles", muebles);
         return "muebles";
     }
+
+
 
     @GetMapping("/create-mueble")
     public String mostrarFormularioCrear(Model model) {
@@ -33,26 +37,65 @@ public class MuebleController {
     }
 
     @PostMapping("/save-mueble")
-    public String guardarMueble(@RequestParam("nombre") String nombre,
-                                @RequestParam("descripcion") String descripcion,
-                                @RequestParam("precio") double precio,
-                                @RequestParam("imagen") MultipartFile imagen) throws IOException {
+    public String guardarMueble(@RequestParam(value = "id", required = false) Long id,
+                                 @RequestParam("nombre") String nombre,
+                                 @RequestParam("descripcion") String descripcion,
+                                 @RequestParam("precio") double precio,
+                                 @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+                                 @RequestParam("imagenExistente") String imagenExistente) throws IOException {
 
-        // Guardar la imagen en una carpeta local
-        String imagenNombre = imagen.getOriginalFilename();
-        Path ruta = Paths.get("src/main/resources/static/imagenes/" + imagenNombre); // La carpeta 'imagenes' debe existir
-        Files.write(ruta, imagen.getBytes()); // Guardar la imagen
+        Mueble mueble;
 
-        // Crear el mueble y asignar la ruta de la imagen
-        Mueble mueble = new Mueble();
+        // Verificar si es una creación o actualización
+        if (id != null && id > 0) {
+            // Actualizar mueble existente
+            mueble = muebleService.obtenerMueblePorId(id);
+            if (mueble == null) {
+                return "redirect:/muebles"; // Si no existe el mueble, redirige a la lista
+            }
+        } else {
+            // Crear un nuevo mueble
+            mueble = new Mueble();
+        }
+
+        // Actualizar los datos del mueble
         mueble.setNombre(nombre);
         mueble.setDescripcion(descripcion);
         mueble.setPrecio(precio);
-        mueble.setImagen("/imagenes/" + imagenNombre); // Ruta de la imagen en el servidor
 
-        muebleService.guardarMueble(mueble); // Guardar el mueble
-        return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
+        // Verificar si se subió una nueva imagen
+        if (imagen != null && !imagen.isEmpty()) {
+            // Crear carpeta de imágenes si no existe
+            Path carpetaImagenes = Paths.get("src/main/resources/static/imagenes");
+            if (!Files.exists(carpetaImagenes)) {
+                Files.createDirectories(carpetaImagenes);
+            }
+
+            // Guardar la nueva imagen
+            String imagenNombre = imagen.getOriginalFilename();
+            Path ruta = carpetaImagenes.resolve(imagenNombre);
+            Files.write(ruta, imagen.getBytes());
+
+            mueble.setImagen("/imagenes/" + imagenNombre); // Actualizar imagen
+        } else {
+            // Mantener la imagen existente
+            mueble.setImagen(imagenExistente);
+        }
+
+        // Guardar los cambios en la base de datos
+        try {
+            muebleService.guardarMueble(mueble);
+        } catch (Exception e) {
+            // Manejo de errores durante el guardado
+            return "redirect:/muebles?error=save_failed"; // Redirigir con un mensaje de error
+        }
+
+        // Redirigir a la lista de muebles con éxito
+        return "redirect:/muebles";
     }
+
+
+
 
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
@@ -64,43 +107,29 @@ public class MuebleController {
         return "edit-mueble";
     }
 
-    @PostMapping("/editar/{id}")
-    public String actualizarMueble(@PathVariable Long id, @RequestParam("nombre") String nombre,
-                                    @RequestParam("descripcion") String descripcion,
-                                    @RequestParam("precio") double precio,
-                                    @RequestParam("imagen") MultipartFile imagen) throws IOException {
-
-        Mueble muebleExistente = muebleService.obtenerMueblePorId(id);
-        if (muebleExistente == null) {
-            return "redirect:/muebles"; // Redirige si no se encuentra el mueble
-        }
-
-        // Actualizar los campos del mueble existente
-        muebleExistente.setNombre(nombre);
-        muebleExistente.setDescripcion(descripcion);
-        muebleExistente.setPrecio(precio);
-
-        // Si se ha cargado una nueva imagen, guardarla
-        if (!imagen.isEmpty()) {
-            String imagenNombre = imagen.getOriginalFilename();
-            Path ruta = Paths.get("src/main/resources/static/imagenes/" + imagenNombre);
-            Files.write(ruta, imagen.getBytes());
-            muebleExistente.setImagen("/imagenes/" + imagenNombre); // Ruta de la imagen en el servidor
-        }
-
-        muebleService.guardarMueble(muebleExistente); // Guardar el mueble actualizado
-        return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
-    }
-
     @GetMapping("/eliminar/{id}")
     public String eliminarMueble(@PathVariable Long id) {
         muebleService.eliminarMueble(id);
         return "redirect:/muebles";
     }
+    
+ // Método para mostrar los detalles del mueble
+    @GetMapping("/detalles/{id}")
+    public String mostrarDetallesMueble(@PathVariable Long id, Model model) {
+        Mueble mueble = muebleService.obtenerMueblePorId(id);
+        if (mueble == null) {
+            return "redirect:/muebles"; // Redirige a la lista si no se encuentra el mueble
+        }
+        model.addAttribute("mueble", mueble);
+        return "detalles";  // Esto devolverá el archivo 'detalles.html'
+    }
 
-    // Método para la página de inicio
+ // Método para la página de inicio
     @GetMapping("/inicio")
     public String mostrarPaginaInicio() {
         return "inicio";  // Esto devolverá el archivo 'inicio.html'
     }
+    
+    
+   
 }

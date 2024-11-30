@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Mueble {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +22,6 @@ public class Mueble {
     @Column(nullable = false)
     private double precio;
 
-    
     // Nuevo campo para la imagen (URL o ruta local)
     @Column
     private String imagen;
