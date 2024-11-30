@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Mueble {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,26 +21,8 @@ public class Mueble {
 
     @Column(nullable = false)
     private double precio;
-<<<<<<< HEAD
-    
+
     // Nuevo campo para la imagen (URL o ruta local)
     @Column
     private String imagen;
-=======
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
->>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
-    
-    // Nuevo campo para la imagen (URL o ruta local)
-    @Column
-    private String imagen;
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
->>>>>>> ccc9a1fe8fb111e26b307c6259eaaa1b86c5a488
->>>>>>> branch 'master' of https://github.com/MoisesACC/Gestion-de-Muebleria.git
 }
