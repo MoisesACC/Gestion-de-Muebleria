@@ -6,19 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.Files;
 
-
-
-
-=======
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
 @Controller
 @RequestMapping("/muebles")
 public class MuebleController {
@@ -26,10 +20,6 @@ public class MuebleController {
     @Autowired
     private MuebleService muebleService;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
     @GetMapping
     public String listarMuebles(Model model) {
         model.addAttribute("muebles", muebleService.listarMuebles());
@@ -43,7 +33,6 @@ public class MuebleController {
     }
 
     @PostMapping("/save-mueble")
-<<<<<<< HEAD
     public String guardarMueble(@RequestParam("nombre") String nombre,
                                 @RequestParam("descripcion") String descripcion,
                                 @RequestParam("precio") double precio,
@@ -65,7 +54,6 @@ public class MuebleController {
         return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
     }
 
-
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
         Mueble mueble = muebleService.obtenerMueblePorId(id);
@@ -73,17 +61,35 @@ public class MuebleController {
             return "redirect:/muebles"; // Redirige si no se encuentra el mueble
         }
         model.addAttribute("mueble", mueble);
-=======
-    public String guardarMueble(Mueble mueble) {
-        muebleService.guardarMueble(mueble);
-        return "redirect:/muebles";
+        return "edit-mueble";
     }
 
-    @GetMapping("/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
-        model.addAttribute("mueble", muebleService.obtenerMueblePorId(id));
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
-        return "edit-mueble";
+    @PostMapping("/editar/{id}")
+    public String actualizarMueble(@PathVariable Long id, @RequestParam("nombre") String nombre,
+                                    @RequestParam("descripcion") String descripcion,
+                                    @RequestParam("precio") double precio,
+                                    @RequestParam("imagen") MultipartFile imagen) throws IOException {
+
+        Mueble muebleExistente = muebleService.obtenerMueblePorId(id);
+        if (muebleExistente == null) {
+            return "redirect:/muebles"; // Redirige si no se encuentra el mueble
+        }
+
+        // Actualizar los campos del mueble existente
+        muebleExistente.setNombre(nombre);
+        muebleExistente.setDescripcion(descripcion);
+        muebleExistente.setPrecio(precio);
+
+        // Si se ha cargado una nueva imagen, guardarla
+        if (!imagen.isEmpty()) {
+            String imagenNombre = imagen.getOriginalFilename();
+            Path ruta = Paths.get("src/main/resources/static/imagenes/" + imagenNombre);
+            Files.write(ruta, imagen.getBytes());
+            muebleExistente.setImagen("/imagenes/" + imagenNombre); // Ruta de la imagen en el servidor
+        }
+
+        muebleService.guardarMueble(muebleExistente); // Guardar el mueble actualizado
+        return "redirect:/muebles"; // Redirige a la lista de muebles después de guardar
     }
 
     @GetMapping("/eliminar/{id}")
@@ -91,14 +97,10 @@ public class MuebleController {
         muebleService.eliminarMueble(id);
         return "redirect:/muebles";
     }
-<<<<<<< HEAD
-    
- // Método para la página de inicio
+
+    // Método para la página de inicio
     @GetMapping("/inicio")
     public String mostrarPaginaInicio() {
         return "inicio";  // Esto devolverá el archivo 'inicio.html'
     }
-   
-=======
->>>>>>> bcf8fd40bb68b8960587a3fce46128abd0ac81cb
 }
