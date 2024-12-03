@@ -1,148 +1,391 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Muebles</title>
-
-    <!-- Enlace a Bootstrap CSS -->
+    <title>LuxuryWood - Gestión de Muebles</title>
+    
+    <!-- Enlaces CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        h1 {
-            margin-top: 20px;
-            text-align: center;
-        }
-        table {
-            margin-top: 30px;
-        }
-        .table th, .table td {
-            text-align: center;
-        }
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-        }
-    </style>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Muebles</title>
-
-    <!-- Enlace a Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        h1 {
-            margin-top: 20px;
-            text-align: center;
-        }
-        table {
-            margin-top: 30px;
-        }
-        .table th, .table td {
-            text-align: center;
-        }
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
-<body>
+<style>
+:root {
+    --primary-color: #8B4513;
+    --secondary-color: #DEB887;
+    --accent-color: #D2691E;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-light: #faf6f2;
+    --shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
 
-    <!-- Navbar de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestión de Muebles</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-light);
+    line-height: 1.6;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--primary-color) !important;
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand, .nav-link {
+    color: var(--text-light) !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+
+/* Carousel Styles */
+.carousel-item img {
+    height: 600px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+/* Section Styles */
+.section-title {
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+/* Card Styles */
+.product-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-card img {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.btn-custom {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.social-icons a {
+    color: var(--text-light);
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--secondary-color);
+}
+/* Admin Panel Specific Styles */
+.admin-container {
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    padding-bottom: 3rem;
+}
+
+.admin-header {
+    background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
+                url('https://images.unsplash.com/photo-1581428982868-e410dd047a90');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.admin-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.table-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+ 
+.admin-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem;
+    font-weight: 500;
+}
+
+.admin-table td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: rgba(139, 69, 19, 0.05);
+}
+
+.admin-table img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.btn-admin {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-create {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-create:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-view {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+</style>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/muebles/inicio">Inicio</a>
+                        <a class="nav-link" href="/muebles/inicio">Inicio</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="/muebles/productos">Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Galería</a>
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nosotros</a>
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Contenido principal -->
-    <div class="container" style="
-    max-width: 1500px;
-">
-        <h1>Lista de Muebles</h1>
-        <a href="/muebles/create-mueble" class="btn btn-custom">Crear Mueble</a>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="container">
+                <h1 class="admin-title">Gestión de Muebles</h1>
+                <p class="lead">Administra tu catálogo de productos</p>
+            </div>
+        </header>
 
-        <!-- Tabla de muebles -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                 	<th>Id</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="mueble : ${muebles}">
-                 	<td th:text="${mueble.id}"></td>
-                    <td th:text="${mueble.nombre}"></td>
-                    <td th:text="${mueble.descripcion}"></td>
-                    <td th:text="'S/. ' + ${mueble.precio}"></td>
-                     <td>
-            <!-- Mostrar imagen -->
-            <img th:if="${mueble.imagen}" th:src="@{${mueble.imagen}}" alt="Imagen Mueble" width="50">
+        <!-- Main Content -->
+        <div class="container">
+            <div class="d-flex justify-content-end mb-4">
+                <a href="/muebles/create-mueble" class="btn btn-admin btn-create">
+                    <i class="fas fa-plus"></i> Crear Nuevo Mueble
+                </a>
+            </div>
 
-        </td>
-                    <td>
-                      	<a class="btn btn-info btn-sm" th:href="@{/muebles/detalles/{id}(id=${mueble.id})}">Ver Detalles</a>
-                        <a class="btn btn-warning btn-sm" th:href="@{/muebles/editar/{id}(id=${mueble.id})}">Editar</a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">Eliminar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="mueble : ${muebles}">
+                            <td th:text="${mueble.id}"></td>
+                            <td>
+                                <img th:if="${mueble.imagen}" th:src="@{${mueble.imagen}}" 
+                                     alt="Imagen Mueble" class="product-image">
+                            </td>
+                            <td th:text="${mueble.nombre}"></td>
+                            <td th:text="${mueble.descripcion}"></td>
+                            <td th:text="'S/. ' + ${mueble.precio}"></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-admin btn-view" 
+                                       th:href="@{/muebles/detalles/{id}(id=${mueble.id})}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-admin btn-edit" 
+                                       th:href="@{/muebles/editar/{id}(id=${mueble.id})}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-admin btn-delete" 
+                                       th:href="@{/muebles/eliminar/{id}(id=${mueble.id})}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- Enlace a Bootstrap JS y dependencias -->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Panel de Administración</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="/muebles/inicio">Inicio</a></li>
+                        <li><a href="/muebles/create-mueble">Crear Mueble</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Soporte</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Manual de Usuario</a></li>
+                        <li><a href="#">Contactar Soporte</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+</body>
 </html>
-

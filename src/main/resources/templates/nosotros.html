@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxuryWood - Muebles de Calidad</title>
+
+    <!-- Enlaces CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DEB887;
+            --accent-color: #D2691E;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf6f2;
+        }
+
+      /* Navbar Styles */
+.navbar {
+    background-color: var(--primary-color) !important;
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-1.2.1');
+            background-size: cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .carousel-item img {
+            height: 600px;
+            object-fit: cover;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .about-section {
+            background-color: #fff;
+            padding: 80px 0;
+        }
+
+        .mission-vision {
+            background-color: var(--secondary-color);
+            padding: 80px 0;
+            color: #fff;
+        }
+
+        .product-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .testimonial-section {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 0;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/muebles/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Sección Sobre Nosotros -->
+    <section id="nosotros" class="about-section">
+        <div class="container">
+            <h2 class="section-title">Sobre Nosotros</h2>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90" class="img-fluid rounded" alt="Nuestro taller">
+                </div>
+                <div class="col-md-6">
+                    <h3>Tradición en Mueblería desde 1990</h3>
+                    <p>En LuxuryWood, nos dedicamos a crear muebles excepcionales que combinan la artesanía tradicional con el diseño contemporáneo. Cada pieza es elaborada con maderas seleccionadas y acabados de primera calidad.</p>
+                    <p>Nuestro compromiso con la excelencia se refleja en cada detalle, desde la selección de materiales hasta el servicio post-venta.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Misión y Visión -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 style="color:black"><i class="fas fa-bullseye" style="color:black"></i> Nuestra Misión</h3>
+                            <p style="color:black">Crear muebles excepcionales que transformen los espacios de nuestros clientes en lugares únicos y confortables, manteniendo los más altos estándares de calidad y servicio.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 style="color:black"><i class="fas fa-eye" style="color:black"></i> Nuestra Visión</h3>
+                            <p style="color:black">Ser reconocidos como la empresa líder en diseño y fabricación de muebles de alta calidad, innovando constantemente y estableciendo nuevos estándares en la industria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Sección de Testimonios -->
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--primary-color)"></i>
+                        <p>"Excelente calidad en los muebles y un servicio excepcional. Totalmente recomendado."</p>
+                        <strong>- María García</strong>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--primary-color)"></i>
+                        <p>"Los mejores muebles que he comprado. La atención y el servicio post-venta son inmejorables."</p>
+                        <strong>- Carlos Rodríguez</strong>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <i class="fas fa-quote-left fa-2x mb-3" style="color: var(--primary-color)"></i>
+                        <p>"Diseños únicos y acabados perfectos. Superaron todas mis expectativas."</p>
+                        <strong>- Ana Martínez</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Creando espacios únicos desde 1990</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Independencia 123, Los Olivos </p>
+                    <p><i class="fas fa-phone"></i> +51 972 123 412</p>
+                    <p><i class="fas fa-envelope"></i> info@luxurywood.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Catálogo</a></li>
+                        <li><a href="#" class="text-white">Promociones</a></li>
+                        <li><a href="#" class="text-white">Política de Privacidad</a></li>
+                        <li><a href="#" class="text-white">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

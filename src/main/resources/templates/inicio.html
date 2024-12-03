@@ -1,226 +1,336 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Gestión de Muebles</title>
-
-    <!-- Enlace a Bootstrap CSS -->
+    <title>LuxuryWood - Muebles de Calidad</title>
+    
+    <!-- Enlaces CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        h1 {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .carousel-item img {
-            width: 100%;
-            height: 523px;
-            object-fit: cover;
-        }
-        .card {
-            margin: 15px 0;
-        }
-        .card-img-top {
-            height: 310px;
-            object-fit: cover;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        footer a {
-            color: #ffc107;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
 </head>
-<body>
+<style>
 
-    <!-- Navbar de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestión de Muebles</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+:root {
+    --primary-color: #8B4513;
+    --secondary-color: #DEB887;
+    --accent-color: #D2691E;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-light: #faf6f2;
+    --shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-light);
+    line-height: 1.6;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--primary-color) !important;
+    padding: 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+
+/* Carousel Styles */
+.carousel-item img {
+    height: 600px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+/* Section Styles */
+.section-title {
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+/* Card Styles */
+.product-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-card img {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.btn-custom {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.social-icons a {
+    color: var(--text-light);
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--secondary-color);
+}
+
+</style>
+<body>
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                        <a class="nav-link" href="#">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Galería</a>
+                        <a class="nav-link" href="/muebles/productos">Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nosotros</a>
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-user"></i> Login
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Slider de imágenes (Carrusel de ofertas) -->
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <!-- Carrusel Principal -->
+    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+        </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://marketplace.canva.com/EAFa1t7BWig/1/0/1600w/canva-mercado-shops-banner-objetos-decoraci%C3%B3n-minimalista-blanco-y-verde-aceituna-jXLAUyXcgeM.jpg" class="d-block w-100" alt="Oferta 1">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>¡Descuento en Muebles de Sala!</h2>
-                    <p>Hasta un 30% de descuento en nuestra selección de muebles de sala.</p>
+                <img src="https://marketplace.canva.com/EAFa1t7BWig/1/0/1600w/canva-mercado-shops-banner-objetos-decoraci%C3%B3n-minimalista-blanco-y-verde-aceituna-jXLAUyXcgeM.jpg" class="d-block w-100" alt="Muebles de Sala">
+                <div class="carousel-caption">
+                    <h2>Diseños Exclusivos en Muebles</h2>
+                    <p>Hasta 30% de descuento en toda nuestra colección</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://orsal.com/wp-content/uploads/2021/07/muebles-de-empresa-portada-scaled.jpg" class="d-block w-100" alt="Oferta 2">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>¡Muebles de Oficina!</h2>
-                    <p>Comodidad y estilo para tu oficina, con increíbles ofertas.</p>
+                <img src="https://orsal.com/wp-content/uploads/2021/07/muebles-de-empresa-portada-scaled.jpg" class="d-block w-100" alt="Muebles de Oficina">
+                <div class="carousel-caption">
+                    <h2>Espacios de Trabajo Modernos</h2>
+                    <p>Mobiliario ergonómico para tu oficina</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://casagrande.com.pe/wp-content/uploads/2022/05/correccion-portada-categoria-salas.jpg" class="d-block w-100" alt="Oferta 3">
-                <div class="carousel-caption d-none d-md-block">
-                    <h2>¡Renueva tu Hogar!</h2>
-                    <p>Ofertas exclusivas para la renovación de tu hogar con nuestros muebles.</p>
+                <img src="https://casagrande.com.pe/wp-content/uploads/2022/05/correccion-portada-categoria-salas.jpg" class="d-block w-100" alt="Decoración de Interiores">
+                <div class="carousel-caption">
+                    <h2>Transforma tu Hogar</h2>
+                    <p>Diseños contemporáneos para espacios únicos</p>
                 </div>
             </div>
-            
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
         </button>
     </div>
 
-    <!-- Sección de Recomendaciones -->
-    <div class="container my-5">
-        <h2 class="text-center mb-4">Recomendaciones</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://www.rosen.com.pe/media/wysiwyg/2024/megamenu-peru/bnrmenupe-mueblesliving.webp"
-                        class="card-img-top" alt="Mueble 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Sillón Moderno</h5>
-                        <p class="card-text">Este sillón moderno es ideal para cualquier sala, con un diseño elegante y
-                            cómodo.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
+    <!-- Sección Nosotros -->
+    <section id="nosotros" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Nuestra Historia</h2>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90" class="img-fluid rounded shadow" alt="Taller de carpintería">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="mb-4">Tradición y Calidad desde 1990</h3>
+                    <p>En LuxuryWood, nos dedicamos a crear muebles excepcionales que combinan la artesanía tradicional con diseños contemporáneos. Cada pieza es elaborada con las mejores maderas y acabados de primera calidad.</p>
+                    <p>Nuestro compromiso con la excelencia se refleja en cada detalle, desde la selección de materiales hasta el servicio post-venta.</p>
+                    <div class="mt-4">
+                        <a href="#contacto" class="btn btn-custom">Contáctanos</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://oechsle.vteximg.com.br/arquivos/ids/6465718-1000-1000/image-3bb98d18ff924f629f1efc4472830bca.jpg?v=637762458510130000"
-                        class="card-img-top" alt="Mueble 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Mesa de Centro</h5>
-                        <p class="card-text">Una mesa de centro de madera de alta calidad, perfecta para cualquier
-                            estilo de decoración.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://media.cdn.bauhaus/m/493727/12.jpg" class="card-img-top" alt="Mueble 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Estante Modular</h5>
-                        <p class="card-text">Un estante modular que te ayudará a organizar tu espacio de manera
-                            eficiente y estilizada.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://www.rosen.com.pe/media/catalog/product/1/3/13020725-1_2.jpg?quality=100&bg-color=255,255,255&fit=bounds&height=400&width=400&canvas=400:400"
-                        class="card-img-top" alt="Sofá Bergen Tela">
-                    <div class="card-body">
-                        <h5 class="card-title">Sofá Bergen Tela</h5>
-                        <p class="card-text">Un sofá moderno y cómodo diseñado para brindarte el máximo confort. Con su
-                            tela suave y resistente.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://www.rosen.com.pe/media/catalog/product/1/6/16017047-1.jpg?quality=100&bg-color=255,255,255&fit=bounds&height=400&width=400&canvas=400:400"
-                        class="card-img-top" alt="Sofá Seccional Georgia Tela 4 Piezas">
-                    <div class="card-body">
-                        <h5 class="card-title">Sofá Seccional Georgia Tela 4 Piezas</h5>
-                        <p class="card-text">Sofá seccional de 4 piezas, elegante y espacioso, ideal para quienes buscan
-                            comodidad.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://www.rosen.com.pe/media/catalog/product/1/3/13021376-1_1.jpg?quality=100&bg-color=255,255,255&fit=bounds&height=400&width=400&canvas=400:400"
-                        class="card-img-top" alt="Sofá Thamova Cuero">
-                    <div class="card-body">
-                        <h5 class="card-title">Sofá Thamova Cuero</h5>
-                        <p class="card-text">Un sofá de lujo con tapizado de cuero, ideal para aquellos que buscan
-                            elegancia y durabilidad.</p>
-                        <a href="#" class="btn btn-custom">Ver Producto</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- Sección de Productos -->
-    <!--  <div class="container my-5">
-        <h2 class="text-center mb-4">Catálogo de Muebles</h2>
-        <div class="row">
-    <div class="col-md-4" th:each="mueble : ${muebles}">
-        <div class="card">
-            <img th:src="@{${mueble.imagen}}" class="card-img-top" alt="Imagen del mueble">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${mueble.nombre}"></h5>
-                <p class="card-text" th:text="${mueble.descripcion}"></p>
-                <p class="card-text" th:text="'S/. ' + ${mueble.precio}"></p>
-                <a th:href="@{/muebles/detalles/{id}(id=${mueble.id})}" class="btn btn-primary">Ver Detalles</a>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-    </div> -->
+    <!-- Sección Productos -->
+    <section id="productos" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://www.rosen.com.pe/media/wysiwyg/2024/megamenu-peru/bnrmenupe-mueblesliving.webp" alt="Sillón Moderno">
+                        <div class="card-body">
+                            <h5>Sillón Moderno Milano</h5>
+                            <p>Elegante sillón con tapizado premium y diseño ergonómico</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="h5 mb-0">S/. 1,299</span>
+                                <a href="#" class="btn btn-custom">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://oechsle.vteximg.com.br/arquivos/ids/6465718-1000-1000/image-3bb98d18ff924f629f1efc4472830bca.jpg" alt="Mesa de Centro">
+                        <div class="card-body">
+                            <h5>Mesa de Centro Victoria</h5>
+                            <p>Mesa de centro en madera maciza con acabado natural</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="h5 mb-0">S/. 899</span>
+                                <a href="#" class="btn btn-custom">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://www.rosen.com.pe/media/catalog/product/1/3/13020725-1_2.jpg" alt="Sofá Bergen">
+                        <div class="card-body">
+                            <h5>Sofá Bergen Premium</h5>
+                            <p>Sofá de 3 cuerpos con tela importada de alta resistencia</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="h5 mb-0">S/. 2,499</span>
+                                <a href="#" class="btn btn-custom">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Gestión de Muebles. Todos los derechos reservados.</p>
-        <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Creando espacios únicos desde 1990</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Independencia 123, Los Olivos</li>
+                        <li><i class="fas fa-phone"></i> +51 972 123 412</li>
+                        <li><i class="fas fa-envelope"></i> info@luxurywood.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Catálogo</a></li>
+                        <li><a href="#">Promociones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
 
-    <!-- Enlace a Bootstrap JS y dependencias -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

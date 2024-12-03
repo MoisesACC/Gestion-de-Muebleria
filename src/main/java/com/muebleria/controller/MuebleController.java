@@ -129,7 +129,15 @@ public class MuebleController {
     public String mostrarPaginaInicio() {
         return "inicio";  // Esto devolverá el archivo 'inicio.html'
     }
+    @GetMapping("/nosotros")
+    public String mostrarNosotros() {
+        return "nosotros";  // Esto devolverá el archivo 'nosotros.html'
+    }
+
     
-    
-   
+    @GetMapping("/productos")
+    public String mostrarProductos() {
+        return "productos";  // Esto devolverá el archivo 'nosotros.html'
+    }
+
 }
