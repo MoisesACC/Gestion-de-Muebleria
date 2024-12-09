@@ -21,7 +21,16 @@
             font-family: 'Roboto', sans-serif;
             background-color: #faf6f2;
         }
-
+/* Productos Page Specific Styles */
+.product-header {
+    background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
+                url('https://images.unsplash.com/photo-1581428982868-e410dd047a90');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+}
       /* Navbar Styles */
 .navbar {
     background-color: var(--primary-color) !important;
@@ -164,7 +173,7 @@
                         <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Contacto</a>
+                        <a class="nav-link" href="/muebles/contacto">Contacto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">
@@ -176,7 +185,13 @@
         </div>
     </nav>
 
-
+ <!-- Header -->
+    <header class="product-header py-5">
+        <div class="container text-center">
+            <h1 class="display-4">Nosotros</h1>
+            <p class="lead">Conoce nuestra historia de como surgió nuestra empresa.</p>
+        </div>
+    </header>
     <!-- Sección Sobre Nosotros -->
     <section id="nosotros" class="about-section">
         <div class="container">

@@ -165,6 +165,10 @@ public class MuebleController {
         model.addAttribute("muebles", muebles);
         return "productos";
     }
+    @GetMapping("/contacto")
+    public String mostrarContacto() {
+        return "contacto";  // Esto devolverá el archivo 'contacto.html'
+    }
 
 
 }

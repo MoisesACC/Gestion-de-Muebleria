@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxuryWood - Contacto</title>
+    
+    <!-- Enlaces CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DEB887;
+            --accent-color: #D2691E;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #faf6f2;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+/* Productos Page Specific Styles */
+.product-header {
+    background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
+                url('https://images.unsplash.com/photo-1581428982868-e410dd047a90');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .contact-info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+        }
+
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .social-icons a {
+            color: var(--text-light);
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+
+        .map-container {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/muebles/contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="product-header py-5">
+        <div class="container text-center">
+            <h1 class="display-4">Contáctanos</h1>
+            <p class="lead">Estamos aquí para ayudarte a crear espacios únicos</p>
+        </div>
+    </header>
+
+    <!-- Sección de Información de Contacto -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Información de Contacto</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4 class="mb-3">Dirección</h4>
+                        <p>Av. Independencia 123<br>Los Olivos, Lima<br>Perú</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h4 class="mb-3">Teléfono</h4>
+                        <p>+51 972 123 412<br>+51 1 555-0123</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4 class="mb-3">Email</h4>
+                        <p>info@luxurywood.com<br>ventas@luxurywood.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario de Contacto -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Envíanos un Mensaje</h2>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Asunto">
+                        <textarea class="form-control" rows="5" placeholder="Mensaje"></textarea>
+                        <button type="submit" class="btn btn-custom mt-3">Enviar Mensaje</button>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title">Ubicación</h2>
+                    <div class="map-container">
+                       <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1951.3948382821811!2d-77.06059431925462!3d-11.98905027465778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2spe!4v1733764724976!5m2!1ses-419!2spe" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horario de Atención -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Horario de Atención</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="contact-info-card">
+                        <div class="row text-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Lunes a Viernes</h5>
+                                <p>9:00 AM - 7:00 PM</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Sábados</h5>
+                                <p>10:00 AM - 4:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Creando espacios únicos desde 1990</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Independencia 123, Los Olivos</li>
+                        <li><i class="fas fa-phone"></i> +51 972 123 412</li>
+                        <li><i class="fas fa-envelope"></i> info@luxurywood.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Catálogo</a></li>
+                        <li><a href="#">Promociones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

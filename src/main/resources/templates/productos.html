@@ -288,7 +288,7 @@ footer {
                         <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Contacto</a>
+                        <a class="nav-link" href="/muebles/contacto">Contacto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">
@@ -345,11 +345,7 @@ footer {
                     <div class="product-card">
                         <div class="product-image">
                             <img th:if="${mueble.imagen}" th:src="@{${mueble.imagen}}" 
-                                 alt="Imagen Mueble" class="img-fluid">
-                            <div class="product-overlay">
-                                <a th:href="@{/muebles/detalles/{id}(id=${mueble.id})}" 
-                                   class="btn btn-light">Ver Detalles</a>
-                            </div>
+                                 alt="Imagen Mueble" class="img-fluid">                            
                         </div>
                         <div class="card-body">
                             <h5 class="card-title" th:text="${mueble.nombre}">Nombre del Mueble</h5>
