@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.IOException;
 import java.nio.file.Files;
 @Controller
@@ -136,8 +137,34 @@ public class MuebleController {
 
     
     @GetMapping("/productos")
-    public String mostrarProductos() {
-        return "productos";  // Esto devolverá el archivo 'nosotros.html'
+    public String filtrarProductos(
+                                   @RequestParam(required = false) String precio,
+                                   @RequestParam(required = false) String busqueda,
+                                   Model model) {
+        List<Mueble> muebles = muebleService.listarMuebles();
+
+
+
+        // Filtrar por rango de precios
+        if (precio != null && !precio.isEmpty()) {
+            String[] rango = precio.split("-");
+            double minPrecio = Double.parseDouble(rango[0]);
+            double maxPrecio = rango.length > 1 ? Double.parseDouble(rango[1]) : Double.MAX_VALUE;
+            muebles = muebles.stream()
+                    .filter(m -> m.getPrecio() >= minPrecio && m.getPrecio() <= maxPrecio)
+                    .collect(Collectors.toList());
+        }
+
+        // Filtrar por búsqueda
+        if (busqueda != null && !busqueda.isEmpty()) {
+            muebles = muebles.stream()
+                    .filter(m -> m.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("muebles", muebles);
+        return "productos";
     }
+
 
 }

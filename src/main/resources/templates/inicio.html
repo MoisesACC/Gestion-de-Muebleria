@@ -27,6 +27,11 @@ body {
     background-color: var(--bg-light);
     line-height: 1.6;
 }
+.price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent-color);
+}
 
 /* Navbar Styles */
 .navbar {
@@ -84,6 +89,12 @@ body {
     box-shadow: var(--shadow);
     transition: transform 0.3s ease;
 }
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
 
 .product-card:hover {
     transform: translateY(-10px);
@@ -101,6 +112,12 @@ body {
 
 .card-body {
     padding: 1.5rem;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
 }
 
 .btn-custom {
@@ -230,7 +247,7 @@ footer {
         <div class="container">
             <h2 class="section-title">Nuestra Historia</h2>
             <div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90" class="img-fluid rounded shadow" alt="Taller de carpintería">
                 </div>
                 <div class="col-md-6">
@@ -251,39 +268,39 @@ footer {
             <h2 class="section-title">Productos Destacados</h2>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="product-card">
+                    <div class="product-card product-image">
                         <img src="https://www.rosen.com.pe/media/wysiwyg/2024/megamenu-peru/bnrmenupe-mueblesliving.webp" alt="Sillón Moderno">
                         <div class="card-body">
-                            <h5>Sillón Moderno Milano</h5>
+                            <h5 class="card-title">Sillón Moderno Milano</h5>
                             <p>Elegante sillón con tapizado premium y diseño ergonómico</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 mb-0">S/. 1,299</span>
+                                <span class="h5 price mb-0">S/. 1,299</span>
                                 <a href="#" class="btn btn-custom">Ver Detalles</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="product-card">
+                    <div class="product-card product-image">
                         <img src="https://oechsle.vteximg.com.br/arquivos/ids/6465718-1000-1000/image-3bb98d18ff924f629f1efc4472830bca.jpg" alt="Mesa de Centro">
                         <div class="card-body">
-                            <h5>Mesa de Centro Victoria</h5>
+                            <h5 class="card-title">Mesa de Centro Victoria</h5>
                             <p>Mesa de centro en madera maciza con acabado natural</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 mb-0">S/. 899</span>
+                                <span class="h5 price mb-0">S/. 899</span>
                                 <a href="#" class="btn btn-custom">Ver Detalles</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="product-card">
+                    <div class="product-card product-image">
                         <img src="https://www.rosen.com.pe/media/catalog/product/1/3/13020725-1_2.jpg" alt="Sofá Bergen">
                         <div class="card-body">
-                            <h5>Sofá Bergen Premium</h5>
+                            <h5 class="card-title">Sofá Bergen Premium</h5>
                             <p>Sofá de 3 cuerpos con tela importada de alta resistencia</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 mb-0">S/. 2,499</span>
+                                <span class="h5 price mb-0">S/. 2,499</span>
                                 <a href="#" class="btn btn-custom">Ver Detalles</a>
                             </div>
                         </div>
