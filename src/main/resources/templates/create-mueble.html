@@ -1,92 +1,268 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Mueble</title>
-
-    <!-- Enlace a Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
+    <title>LuxuryWood - Crear Nuevo Mueble</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DEB887;
+            --accent-color: #D2691E;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #faf6f2;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         body {
-            background-color: #f8f9fa;
+             font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-light);
+    line-height: 1.6;
         }
-        h1 {
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-brand, .nav-link {
+            color: var(--text-light) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 5rem auto;
+            max-width: 800px;
+        }
+
+        .form-title {
+            color: var(--primary-color);
             text-align: center;
-            margin-top: 30px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 1rem;
         }
-        .container {
-            margin-top: 50px;
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--accent-color);
         }
+
+        .form-label {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
         .form-control {
-            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
         }
-        .btn-custom {
-            background-color: #007bff;
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(210, 105, 30, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .input-group-text {
+            background-color: var(--bg-light);
+            border: 1px solid #ddd;
+            color: var(--text-dark);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .custom-file-input::-webkit-file-upload-button {
+            background-color: var(--primary-color);
             color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .btn-custom:hover {
-            background-color: #0056b3;
+
+        .custom-file-input::-webkit-file-upload-button:hover {
+            background-color: var(--accent-color);
         }
     </style>
 </head>
 <body>
-
-    <!-- Navbar de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/muebles">Gestión de Muebles</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/muebles">Lista de Muebles</a>
+                        <a class="nav-link" href="/muebles/inicio">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nosotros</a>
+                        <a class="nav-link" href="/muebles/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Formulario de Crear Mueble -->
+    <!-- Main Content -->
     <div class="container">
-        <h1>Crear Nuevo Mueble</h1>
-       <form action="/muebles/save-mueble" method="post" enctype="multipart/form-data">
-    <!-- Se elimina el campo id ya que para la creación es innecesario -->
-    <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" class="form-control" name="nombre" id="nombre" required>
-    </div>
-    <div class="mb-3">
-        <label for="descripcion" class="form-label">Descripción:</label>
-        <input type="text" class="form-control" name="descripcion" id="descripcion">
-    </div>
-    <div class="mb-3">
-        <label for="precio" class="form-label">Precio:</label>
-        <input type="number" class="form-control" step="0.01" name="precio" id="precio" required>
-    </div>
-    <!-- Campo para la imagen -->
-    <div class="mb-3">
-        <label for="imagen" class="form-label">Imagen:</label>
-        <input type="file" class="form-control" name="imagen" id="imagen">
-    </div>
- <input type="hidden" name="imagenExistente" value="valor_imagen_existente" />
-    <button type="submit" class="btn btn-custom">Guardar</button>
-    <a href="/muebles" class="btn btn-secondary">Cancelar</a>
-</form>
+        <div class="form-container">
+            <h1 class="form-title">Crear Nuevo Mueble</h1>
+            
+            <form action="/muebles/save-mueble" method="post" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="nombre" class="form-label">Nombre del Mueble</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
 
+                <div class="mb-4">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="precio" class="form-label">Precio</label>
+                    <div class="input-group">
+                        <span class="input-group-text">S/.</span>
+                        <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="imagen" class="form-label">Imagen del Mueble</label>
+                    <input type="file" class="form-control custom-file-input" id="imagen" name="imagen" accept="image/*">
+                </div>
+
+                <input type="hidden" name="imagenExistente" value="">
+
+                <div class="d-flex justify-content-end gap-3 mt-5">
+                    <a href="/muebles" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Mueble
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- Enlace a Bootstrap JS y dependencias -->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Panel de Administración</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="/muebles/inicio">Inicio</a></li>
+                        <li><a href="/muebles/create-mueble">Crear Mueble</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Soporte</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Manual de Usuario</a></li>
+                        <li><a href="#">Contactar Soporte</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-
+</body>
 </html>
-
