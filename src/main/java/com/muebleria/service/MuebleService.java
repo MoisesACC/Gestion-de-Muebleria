@@ -9,4 +9,5 @@ public interface MuebleService {
     Mueble guardarMueble(Mueble mueble);
     Mueble obtenerMueblePorId(Long id);
     void eliminarMueble(Long id);
+    List<Mueble> obtenerProductosDestacados();
 }

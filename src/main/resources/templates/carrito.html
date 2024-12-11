@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+
+    <!-- Tabla con los productos en el carrito -->
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="producto : ${carrito.productos}">
+                <td th:text="${producto.mueble.nombre}"></td>
+                <td th:text="${producto.cantidad}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.precio * producto.cantidad}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Mostrar total del carrito -->
+    <h3>Total: <span th:text="${carrito.total}"></span></h3>
+
+    <!-- Formulario de compra -->
+    <form th:action="@{/carrito/comprar}" method="post">
+        <input type="hidden" name="carritoId" th:value="${carrito.id}" />
+        <button type="submit">Comprar</button>
+    </form>
+
+    <div th:if="${param.error}">
+        <p style="color:red;">Hubo un error al procesar la compra.</p>
+    </div>
+</body>
+</html>
+

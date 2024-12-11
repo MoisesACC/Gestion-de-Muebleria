@@ -20,7 +20,7 @@ public class MuebleController {
 
     @Autowired
     private MuebleService muebleService;
-
+    
     @GetMapping
     public String listarMuebles(Model model) {
         List<Mueble> muebles = muebleService.listarMuebles();
@@ -127,9 +127,13 @@ public class MuebleController {
 
  // Método para la página de inicio
     @GetMapping("/inicio")
-    public String mostrarPaginaInicio() {
-        return "inicio";  // Esto devolverá el archivo 'inicio.html'
+    public String mostrarProductosDestacados(Model model) {
+        // Obtener los productos destacados usando el servicio
+        List<Mueble> productosDestacados = muebleService.obtenerProductosDestacados();
+        model.addAttribute("productosDestacados", productosDestacados);
+        return "inicio"; // Nombre del archivo HTML
     }
+    
     @GetMapping("/nosotros")
     public String mostrarNosotros() {
         return "nosotros";  // Esto devolverá el archivo 'nosotros.html'

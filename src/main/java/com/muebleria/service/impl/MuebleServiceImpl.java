@@ -49,4 +49,9 @@ public class MuebleServiceImpl implements MuebleService {
     public void eliminarMueble(Long id) {
         muebleRepository.deleteById(id);
     }
+
+	@Override
+	public List<Mueble> obtenerProductosDestacados() {
+        return muebleRepository.findTop3ByOrderByPrecioDesc();
+	}
 }

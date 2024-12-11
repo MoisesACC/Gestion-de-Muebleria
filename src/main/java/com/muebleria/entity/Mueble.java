@@ -25,5 +25,4 @@ public class Mueble {
     // Nuevo campo para la imagen (URL o ruta local)
     @Column
     private String imagen;
-
 }

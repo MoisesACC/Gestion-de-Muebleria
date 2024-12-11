@@ -3,6 +3,9 @@ package com.muebleria.service.impl;
 import com.muebleria.entity.Usuario;
 import com.muebleria.repository.UsuarioRepository;
 import com.muebleria.service.UsuarioService;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,4 +43,18 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
     }
+
+	@Override
+	public Usuario findById(Long usuarioId) {
+	    // Buscar el usuario por id en el repositorio
+	    Optional<Usuario> usuarioOpt = usuarioRepository.findById(usuarioId);
+	    
+	    // Si el usuario está presente, lo devolvemos; si no, podemos manejarlo de alguna manera
+	    if (usuarioOpt.isPresent()) {
+	        return usuarioOpt.get(); // Devolvemos el usuario si existe
+	    } else {
+	        // Podrías lanzar una excepción o devolver null, dependiendo de tu lógica de negocio
+	        throw new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
+	    }
+	}
 }
