@@ -30,14 +30,12 @@
     <h3>Total: <span th:text="${carrito.total}"></span></h3>
 
     <!-- Formulario de compra -->
-    <form th:action="@{/carrito/comprar}" method="post">
+    <form class="btn" th:action="@{/carrito/comprar}" method="post">
         <input type="hidden" name="carritoId" th:value="${carrito.id}" />
         <button type="submit">Comprar</button>
     </form>
+    <a href="/muebles/productos" class="btn">Volver a Productos</a>
     
-    <form th:action="@{/carrito/comprar}" method="post">
-        <button href="/muebles/productos" type="submit">Comprar</button>
-    </form>
 
     <div th:if="${param.error}">
         <p style="color:red;">Hubo un error al procesar la compra.</p>

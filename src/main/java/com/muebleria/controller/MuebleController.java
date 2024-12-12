@@ -1,7 +1,12 @@
 package com.muebleria.controller;
 
+import com.muebleria.entity.Carrito;
 import com.muebleria.entity.Mueble;
+import com.muebleria.entity.ProductoCarrito;
 import com.muebleria.service.MuebleService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -142,12 +147,12 @@ public class MuebleController {
     
     @GetMapping("/productos")
     public String filtrarProductos(
-                                   @RequestParam(required = false) String precio,
-                                   @RequestParam(required = false) String busqueda,
-                                   Model model) {
+            @RequestParam(required = false) String precio,
+            @RequestParam(required = false) String busqueda,
+            Model model,
+            HttpSession session) {
+        // Obtener lista de muebles
         List<Mueble> muebles = muebleService.listarMuebles();
-
-
 
         // Filtrar por rango de precios
         if (precio != null && !precio.isEmpty()) {
@@ -166,9 +171,23 @@ public class MuebleController {
                     .collect(Collectors.toList());
         }
 
+        // Añadir los muebles filtrados al modelo
         model.addAttribute("muebles", muebles);
+
+        // Recuperar el carrito desde la sesión
+        Carrito carrito = (Carrito) session.getAttribute("carrito");
+
+        // Calcular el número total de productos en el carrito
+        int carritoCount = (carrito != null) ? carrito.getProductos().stream()
+                                                  .mapToInt(ProductoCarrito::getCantidad)
+                                                  .sum() : 0;
+
+        // Añadir el contador del carrito al modelo
+        model.addAttribute("carritoCount", carritoCount);
+
         return "productos";
     }
+    
     @GetMapping("/contacto")
     public String mostrarContacto() {
         return "contacto";  // Esto devolverá el archivo 'contacto.html'
