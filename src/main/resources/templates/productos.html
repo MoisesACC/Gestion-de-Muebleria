@@ -350,7 +350,7 @@ footer {
                 <div class="product-card">
                     <div class="product-image">
                         <img th:if="${mueble.imagen}" th:src="@{${mueble.imagen}}" 
-                             alt="Imagen Mueble" class="img-fluid">                            
+                             alt="Imagen Mueble" class="img-fluid">                            	
                     </div>
                     <div class="card-body">
                         <h5 class="card-title" th:text="${mueble.nombre}">Nombre del Mueble</h5>
@@ -361,21 +361,22 @@ footer {
                                class="btn btn-custom">Ver Más</a>
                         </div>
                         <!-- Formulario para agregar al carrito -->
-                        <form th:action="@{/agregarProducto}(muebleId=${mueble.id})}" method="post">
-                            <input type="number" name="cantidad" value="1" min="1" class="form-control" required>
-                            <button type="submit" class="btn btn-success mt-2">
-                                <i class="fas fa-cart-plus"></i> Agregar al carrito
-                            </button>
-                        </form>
+						<form th:id="'agregarCarritoForm-' + ${mueble.id}" 
+						      th:onsubmit="'agregarProductoAlCarrito(event, ' + ${mueble.id} + ')'" 
+						      th:action="@{/carrito/agregarProducto}" 
+						      method="post">
+						    <input type="hidden" name="productoId" th:value="${mueble.id}">
+						    <input type="number" name="cantidad" value="1" min="1" class="form-control" required>
+						    <button type="submit" class="btn btn-success mt-2">
+						        <i class="fas fa-cart-plus"></i> Agregar al carrito
+						    </button>
+						</form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -424,7 +425,45 @@ footer {
 
         window.location.href = `/muebles/productos?${queryParams}`;
     }
-   
+    
+    // Función para agregar un producto al carrito usando AJAX
+	function agregarProductoAlCarrito(event, productoId) {
+	    event.preventDefault(); // Prevenir que el formulario recargue la página
+	
+	    // Obtener la cantidad del producto
+	    const cantidad = document.querySelector(`#agregarCarritoForm-${productoId} input[name='cantidad']`).value;
+	
+	    // Realizar la solicitud AJAX para agregar el producto al carrito
+	    fetch(`/carrito/agregarProducto?productoId=${productoId}&cantidad=${cantidad}`, {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/x-www-form-urlencoded', // Asegurarse del formato correcto
+	        },
+	    })
+	    .then(response => response.text()) // Procesar la respuesta del backend
+	    .then(data => {
+	        // Mostrar alerta con el mensaje de éxito
+	        alert(data); // "Producto añadido al carrito"
+	
+	        // Actualizar el contador del carrito (opcional)
+	        actualizarContadorCarrito();
+	    })
+	    .catch(error => {
+	        console.error('Error:', error);
+	        alert('Ocurrió un error al agregar el producto al carrito.');
+	    });
+	}
+
+    // Función para actualizar el contador de productos en el carrito
+    function actualizarContadorCarrito() {
+        fetch('/carrito/count')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('carritoCount').textContent = data.count;
+        })
+        .catch(error => console.error('Error al actualizar el carrito:', error));
+    }
+        
 </script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

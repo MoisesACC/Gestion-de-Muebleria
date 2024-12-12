@@ -34,6 +34,10 @@
         <input type="hidden" name="carritoId" th:value="${carrito.id}" />
         <button type="submit">Comprar</button>
     </form>
+    
+    <form th:action="@{/carrito/comprar}" method="post">
+        <button href="/muebles/productos" type="submit">Comprar</button>
+    </form>
 
     <div th:if="${param.error}">
         <p style="color:red;">Hubo un error al procesar la compra.</p>

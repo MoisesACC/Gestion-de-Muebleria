@@ -1,5 +1,7 @@
 package com.muebleria.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,10 @@ import com.muebleria.repository.UsuarioRepository;
 import com.muebleria.service.CarritoService;
 import com.muebleria.service.UsuarioService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class CarritoServiceImpl implements CarritoService{
 
     @Autowired
@@ -36,36 +41,66 @@ public class CarritoServiceImpl implements CarritoService{
     
     @Override
     public Carrito obtenerCarritoPorUsuario(Usuario usuario) {
-        Carrito carrito = carritoRepository.findByUsuario(usuario);
-        if (carrito == null) {
-            carrito = new Carrito();
-            carrito.setUsuario(usuario);
-            carrito = carritoRepository.save(carrito); // Guarda el nuevo carrito en la base de datos
+        // Buscar carrito activo
+        Optional<Carrito> carritoExistente = carritoRepository.findByUsuario_IdAndActivo(usuario.getId(), true);
+        if (carritoExistente.isPresent()) {
+            return carritoExistente.get();
         }
-        return carrito;
+
+        // Si no existe un carrito activo, buscar uno inactivo o crear uno nuevo
+        Optional<Carrito> carritoInactivo = carritoRepository.findByUsuario_IdAndActivo(usuario.getId(), false);
+        if (carritoInactivo.isPresent()) {
+            Carrito carrito = carritoInactivo.get();
+            carrito.setActivo(true);
+            return carritoRepository.save(carrito);
+        }
+
+        // Si no existe ningún carrito, se crea uno nuevo
+        Carrito nuevoCarrito = new Carrito();
+        nuevoCarrito.setUsuario(usuario);
+        nuevoCarrito.setActivo(true);
+        return carritoRepository.save(nuevoCarrito);
     }
 
     @Override
-    public void agregarProductoAlCarrito(Long carritoId, Long productoId, int cantidad) {
-        Carrito carrito = carritoRepository.findById(carritoId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+    public void agregarProductoAlCarrito(Usuario usuario, Long productoId, int cantidad) {
+        // Buscar si ya existe un carrito activo
+        Carrito carrito = carritoRepository.findByUsuario_IdAndActivo(usuario.getId(), true)
+                .orElseGet(() -> {
+                    // Si no existe un carrito activo, buscar el carrito inactivo, o crear uno nuevo
+                    Optional<Carrito> carritoInactivo = carritoRepository.findByUsuario_IdAndActivo(usuario.getId(), false);
+                    if (carritoInactivo.isPresent()) {
+                        // Desactivar el carrito anterior
+                        Carrito carritoAntiguo = carritoInactivo.get();
+                        carritoAntiguo.setActivo(false);
+                        carritoRepository.save(carritoAntiguo);
+                    }
+                    Carrito nuevoCarrito = new Carrito();
+                    nuevoCarrito.setUsuario(usuario);
+                    nuevoCarrito.setActivo(true);
+                    return carritoRepository.save(nuevoCarrito);
+                });
 
-        // Buscar el mueble por ID
+        // Buscar el producto
         Mueble mueble = muebleRepository.findById(productoId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         // Verificar si el producto ya está en el carrito
-        ProductoCarrito productoCarrito = new ProductoCarrito();
-        productoCarrito.setCarrito(carrito);
-        productoCarrito.setMueble(mueble);
-        productoCarrito.setCantidad(cantidad);
-        productoCarrito.setPrecio(mueble.getPrecio());
+        ProductoCarrito productoCarrito = productoCarritoRepository
+                .findByCarritoAndMueble(carrito, mueble)
+                .orElseGet(() -> {
+                    ProductoCarrito nuevoProducto = new ProductoCarrito();
+                    nuevoProducto.setCarrito(carrito);
+                    nuevoProducto.setMueble(mueble);
+                    nuevoProducto.setCantidad(0);  // Inicializamos en 0 para incrementar después
+                    nuevoProducto.setPrecio(mueble.getPrecio());
+                    return nuevoProducto;
+                });
 
-        // Guardar la relación en la base de datos
+        // Actualizar la cantidad del producto en el carrito
+        productoCarrito.setCantidad(productoCarrito.getCantidad() + cantidad);
         productoCarritoRepository.save(productoCarrito);
     }
-
-
 
 
     @Override

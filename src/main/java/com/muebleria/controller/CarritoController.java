@@ -54,31 +54,27 @@ public class CarritoController {
     @Autowired
     private CarritoRepository carritoRepository;
 
+    
     @PostMapping("/agregarProducto")
-    public String agregarProductoAlCarrito(@RequestParam Long productoId, @RequestParam int cantidad, Principal principal) {
-        // Obtener el nombre de usuario de la sesión actual
+    @ResponseBody  // Esto asegura que el contenido se envíe como respuesta directa
+    public String agregarProductoAlCarrito(@RequestParam Long productoId, 
+                                           @RequestParam int cantidad, 
+                                           Principal principal, 
+                                           HttpSession session) {
         String username = principal.getName();
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el username: " + username));
 
-        // Obtener el carrito del usuario
-        Long usuarioId = usuario.getId(); // Obtener el ID del usuario
-        Carrito carrito = carritoService.obtenerCarritoPorUsuario(usuario); // Asegúrate de que esta función devuelva el carrito
+        carritoService.agregarProductoAlCarrito(usuario, productoId, cantidad);
 
-        // Si no hay carrito, crea uno nuevo y lo guarda
-        if (carrito == null) {
-            carrito = new Carrito();
-            carrito.setUsuario(usuario);
-            carritoService.guardarCarrito(carrito);  // Guarda el carrito nuevo
-        }
+        // Actualizar el carrito en la sesión
+        Carrito carritoActualizado = carritoService.obtenerCarritoPorUsuario(usuario);
+        session.setAttribute("carrito", carritoActualizado);
 
-        // Delegar la tarea de agregar el producto al carrito al servicio
-        carritoService.agregarProductoAlCarrito(carrito.getId(), productoId, cantidad);
-
-        return "redirect:/carrito";  // Redirigir a la vista del carrito
+        // Retornar un mensaje de éxito
+        return "Producto añadido al carrito";
     }
-
-
+    
 
     // Método para obtener la cantidad de productos en el carrito del usuario
     @GetMapping("/count")
@@ -103,6 +99,12 @@ public class CarritoController {
     public String comprarCarrito(@RequestParam Long carritoId) {
         try {
             Factura factura = facturaService.generarFactura(carritoId);
+            // Marcar el carrito como inactivo al realizar la compra
+            Carrito carrito = carritoRepository.findById(carritoId)
+                    .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+            carrito.setActivo(false);
+            carritoRepository.save(carrito);
+
             return "redirect:/factura/" + factura.getId();  // Redirige a la página de la factura
         } catch (Exception e) {
             return "redirect:/carrito?error=true";  // Redirige en caso de error
@@ -113,14 +115,11 @@ public class CarritoController {
     public String verCarrito(HttpSession session, Model model, Principal principal) {
         String username = principal.getName();
         Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        Carrito carrito = (Carrito) session.getAttribute("carrito");
-
-        if (carrito == null) {
-            carrito = carritoService.obtenerCarritoPorUsuario(usuario);
-            session.setAttribute("carrito", carrito);  // Guardar en la sesión
-        }
+        // Usar servicio para obtener el carrito del usuario
+        Carrito carrito = carritoService.obtenerCarritoPorUsuario(usuario);
+        session.setAttribute("carrito", carrito);
 
         int totalProductos = carrito.getProductos().stream().mapToInt(ProductoCarrito::getCantidad).sum();
 
@@ -128,7 +127,6 @@ public class CarritoController {
         model.addAttribute("totalProductos", totalProductos);
         return "carrito";
     }
-
 
 }
 
