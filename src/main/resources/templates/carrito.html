@@ -1,45 +1,295 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <title>Carrito de Compras</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxuryWood - Carrito de Compras</title>
+    
+    <!-- Enlaces CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DEB887;
+            --accent-color: #D2691E;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #faf6f2;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        .cart-header {
+            background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
+                        url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .cart-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .cart-table {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .cart-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .cart-table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .cart-total {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons a {
+            color: var(--text-light);
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+    </style>
 </head>
 <body>
-    <h1>Carrito de Compras</h1>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/muebles/inicio">
+                <i class="fas fa-couch"></i> LuxuryWood
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/muebles/contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/carrito">
+                            <i class="fas fa-shopping-cart"></i> Carrito (<span th:text="${carritoCount}">0</span>)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Tabla con los productos en el carrito -->
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="producto : ${carrito.productos}">
-                <td th:text="${producto.mueble.nombre}"></td>
-                <td th:text="${producto.cantidad}"></td>
-                <td th:text="${producto.precio}"></td>
-                <td th:text="${producto.precio * producto.cantidad}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Header -->
+    <header class="cart-header">
+        <div class="container text-center">
+            <h1 class="display-4">Carrito de Compras</h1>
+            <p class="lead">Revisa tus productos seleccionados</p>
+        </div>
+    </header>
 
-    <!-- Mostrar total del carrito -->
-    <h3>Total: <span th:text="${carrito.total}"></span></h3>
+    <!-- Cart Content -->
+    <div class="container">
+        <div class="cart-container">
+            <div class="table-responsive">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="producto : ${carrito.productos}">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img th:if="${producto.mueble.imagen}" th:src="@{${producto.mueble.imagen}}" 
+                                         alt="Producto" style="width: 50px; height: 50px; object-fit: cover; margin-right: 1rem;">
+                                    <span th:text="${producto.mueble.nombre}"></span>
+                                </div>
+                            </td>
+                            <td th:text="${producto.cantidad}"></td>
+                            <td th:text="'S/. ' + ${producto.precio}"></td>
+                            <td th:text="'S/. ' + ${producto.precio * producto.cantidad}"></td>
+                            <td>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <!-- Formulario de compra -->
-    <form class="btn" th:action="@{/carrito/comprar}" method="post">
-        <input type="hidden" name="carritoId" th:value="${carrito.id}" />
-        <button type="submit">Comprar</button>
-    </form>
-    <a href="/muebles/productos" class="btn">Volver a Productos</a>
-    
+            <div class="cart-total">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Total del Carrito:</h3>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <h3 th:text="'S/. ' + ${carrito.total}"></h3>
+                    </div>
+                </div>
+            </div>
 
-    <div th:if="${param.error}">
-        <p style="color:red;">Hubo un error al procesar la compra.</p>
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <a href="/muebles/productos" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Seguir Comprando
+                </a>
+                <form th:action="@{/carrito/comprar}" method="post" class="d-inline">
+                    <input type="hidden" name="carritoId" th:value="${carrito.id}" />
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Finalizar Compra
+                    </button>
+                </form>
+            </div>
+
+            <div th:if="${param.error}" class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                Hubo un error al procesar la compra. Por favor, inténtalo nuevamente.
+            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>LuxuryWood</h4>
+                    <p>Creando espacios únicos desde 1990</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Independencia 123, Los Olivos</li>
+                        <li><i class="fas fa-phone"></i> +51 972 123 412</li>
+                        <li><i class="fas fa-envelope"></i> info@luxurywood.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="/muebles/inicio">Inicio</a></li>
+                        <li><a href="/muebles/productos">Productos</a></li>
+                        <li><a href="/muebles/nosotros">Nosotros</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 LuxuryWood. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

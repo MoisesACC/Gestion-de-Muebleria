@@ -117,16 +117,35 @@ public class CarritoController {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        // Usar servicio para obtener el carrito del usuario
+        // Obtener el carrito del usuario
         Carrito carrito = carritoService.obtenerCarritoPorUsuario(usuario);
+        double total = carritoService.calcularTotalCarrito(usuario);
+        carrito.setTotal(total);
+
         session.setAttribute("carrito", carrito);
 
-        int totalProductos = carrito.getProductos().stream().mapToInt(ProductoCarrito::getCantidad).sum();
-
         model.addAttribute("carrito", carrito);
-        model.addAttribute("totalProductos", totalProductos);
+        model.addAttribute("totalProductos", carrito.getProductos().stream().mapToInt(ProductoCarrito::getCantidad).sum());
         return "carrito";
     }
+
+    @PostMapping("/eliminarProducto")
+    @ResponseBody
+    public String eliminarProductoDelCarrito(@RequestParam Long productoId, Principal principal, HttpSession session) {
+        String username = principal.getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el username: " + username));
+
+        carritoService.eliminarProductoDelCarrito(usuario, productoId);
+
+        // Actualizar el carrito en la sesión
+        Carrito carritoActualizado = carritoService.obtenerCarritoPorUsuario(usuario);
+        session.setAttribute("carrito", carritoActualizado);
+
+        return "Producto eliminado del carrito";
+    }
+
+    
 
 }
 
