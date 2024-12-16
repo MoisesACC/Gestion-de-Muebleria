@@ -8,6 +8,7 @@
     <!-- Enlaces CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2251/2251911.png " type="image/x-icon">
     <style>
         :root {
             --primary-color: #8B4513;
@@ -154,6 +155,77 @@
             overflow: hidden;
             box-shadow: var(--shadow);
         }
+          .team-section {
+            padding: 6rem 0;
+            background-color: #fff;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-member-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+
+        .team-member-name {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member-role {
+            color: var(--accent-color);
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-member-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .team-member-contact li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .team-member-contact li i {
+            color: var(--primary-color);
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+
+        .team-member-contact a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .team-member-contact a:hover {
+            color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -218,7 +290,7 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <h4 class="mb-3">Teléfono</h4>
-                        <p>+51 972 123 412<br>+51 1 555-0123</p>
+                        <p>+51 927 202 014<br>+51 947 467 235</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -228,6 +300,125 @@
                         </div>
                         <h4 class="mb-3">Email</h4>
                         <p>info@luxurywood.com<br>ventas@luxurywood.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Nuestro Equipo de Desarrollo</h2>
+            <div class="row">
+                <!-- Frontend Developer -->
+                <div class="col-md-6 mb-4">
+                    <div class="team-card">
+                        <img src="https://avatars.githubusercontent.com/u/107083137?v=4" alt="Moises Aaron" class="team-member-img">
+                        <h3 class="team-member-name">Moises Cardenas Crisanto</h3>
+                        <p class="team-member-role">Frontend Developer</p>
+                        <ul class="team-member-contact">
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+51 927 202 014</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:alejandro@gmail.com">moisesaaroncc03@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/MoisesACC" target="_blank" rel="noopener noreferrer">Url: GitHub Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Backend Developer -->
+                <div class="col-md-6 mb-4">
+                    <div class="team-card">
+                        <img src="https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/420529362_1481475972511465_730224141580006802_n.jpg?stp=dst-jpg_tt6&ccb=11-4&oh=01_Q5AaIOR7sJY3VvplcWpPFiyJRSfPga-kuCriJDv3qqeGdxw4&oe=676C930E&_nc_sid=5e03e0&_nc_cat=106" alt="Joe Uriarte" class="team-member-img">
+                        <h3 class="team-member-name">Joe Uriarte Miñan</h3>
+                        <p class="team-member-role">Backend Developer</p>
+                        <ul class="team-member-contact">
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+51 947 467 235</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:carlos@gmail.com">Joe_uriarte@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/UriarteDev" target="_blank" rel="noopener noreferrer">Url: GitHub Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                  <h2 class="section-title">Nuestro Equipo de Documentación</h2>
+                  
+                   <!-- Equipo Documentación -->
+                  <div class="col-md-4 mb-4">
+                    <div class="team-card">
+                        <img src="https://i.ibb.co/vHq46cD/Whats-App-Image-2024-12-15-at-9-50-29-PM.jpg" alt="Exsis" class="team-member-img">
+                        <h3 class="team-member-name">Exsis Segura Alva</h3>
+                        <p class="team-member-role">Analista de Documentación</p>
+                        <ul class="team-member-contact">
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+51 940 930 548</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:carlos@gmail.com">exsissegura340@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/ProgremsA" target="_blank" rel="noopener noreferrer">Url: GitHub Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="team-card">
+                        <img src="https://png.pngtree.com/png-clipart/20240115/original/pngtree-young-programmer-writing-program-code-png-image_14120242.png" alt="Henry" class="team-member-img">
+                        <h3 class="team-member-name">Henry Caruapoma Castro</h3>
+                        <p class="team-member-role">Analista de Documentación</p>
+                        <ul class="team-member-contact">
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+51 947 467 235</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:carlos@gmail.com">HenryCC92@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/UriarteDev" target="_blank" rel="noopener noreferrer">Url: GitHub Profile</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="team-card">
+                        <img src="https://i.ibb.co/bPM8GNX/Whats-App-Image-2024-12-15-at-10-03-29-PM.jpg" alt="Leonardo" class="team-member-img">
+                        <h3 class="team-member-name">Leonardo Huerto Ramos </h3>
+                        <p class="team-member-role">Analista de Documentación</p>
+                        <ul class="team-member-contact">
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+51 967 092 451 </span>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:carlos@gmail.com">huertoramosleonardo@gmail.com</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/leonardohuerto" target="_blank" rel="noopener noreferrer">Url: GitHub Profile</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -308,12 +499,12 @@
                         <li><i class="fas fa-envelope"></i> info@luxurywood.com</li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+               <div class="col-md-4">
                     <h4>Enlaces Rápidos</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Catálogo</a></li>
-                        <li><a href="#">Promociones</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="/muebles/inicio">Inicio</a></li>
+                        <li><a href="/muebles/productos">Productos</a></li>
+                        <li><a href="/muebles/nosotros">Nosotros</a></li>
                         <li><a href="#">Términos y Condiciones</a></li>
                     </ul>
                 </div>
