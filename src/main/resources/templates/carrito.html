@@ -1,183 +1,190 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LuxuryWood - Carrito de Compras</title>
-    
+
     <!-- Enlaces CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2251/2251911.png " type="image/x-icon">
-    
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2251/2251911.png " type="image/x-icon">
+
 </head>
- <style>
-        :root {
-            --primary-color: #8B4513;
-            --secondary-color: #DEB887;
-            --accent-color: #D2691E;
-            --text-light: #ffffff;
-            --text-dark: #333333;
-            --bg-light: #faf6f2;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+<style>
+    :root {
+        --primary-color: #8B4513;
+        --secondary-color: #DEB887;
+        --accent-color: #D2691E;
+        --text-light: #ffffff;
+        --text-dark: #333333;
+        --bg-light: #faf6f2;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-light);
-            line-height: 1.6;
-        }
+    .dropdown-item.logout:hover {
+        background-color: #DEB887;
+    }
 
-        .navbar {
-            background-color: var(--primary-color) !important;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-        }
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: var(--bg-light);
+        line-height: 1.6;
+    }
 
-        .navbar-brand, .nav-link {
-            color: white !important;
-        }
+    .navbar {
+        background-color: var(--primary-color) !important;
+        padding: 1rem 0;
+        box-shadow: var(--shadow);
+    }
 
-        .nav-link:hover {
-            color: var(--secondary-color) !important;
-        }
+    .navbar-brand,
+    .nav-link {
+        color: white !important;
+    }
 
-        .cart-header {
-            background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
-                        url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 4rem 0;
-            margin-bottom: 2rem;
-        }
+    .nav-link:hover {
+        color: var(--secondary-color) !important;
+    }
 
-        .cart-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
+    .cart-header {
+        background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0.7)),
+            url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 2rem;
+    }
 
-        .cart-table {
-            width: 100%;
-            margin-bottom: 2rem;
-        }
+    .cart-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin: 2rem 0;
+    }
 
-        .cart-table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            text-align: left;
-        }
+    .cart-table {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
 
-        .cart-table td {
-            padding: 1rem;
-            vertical-align: middle;
-            border-bottom: 1px solid #dee2e6;
-        }
+    .cart-table th {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 1rem;
+        text-align: left;
+    }
 
-        .cart-total {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-        }
+    .cart-table td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+    }
 
-        .btn-custom {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 0.5rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+    .cart-total {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        margin-top: 2rem;
+    }
 
-        .btn-custom:hover {
-            background-color: var(--accent-color);
-            color: var(--text-light);
-        }
+    .btn-custom {
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        padding: 0.5rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
 
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 1rem;
-            border-radius: 5px;
-            margin: 1rem 0;
-        }
+    .btn-custom:hover {
+        background-color: var(--accent-color);
+        color: var(--text-light);
+    }
 
-        footer {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    }
 
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
+    footer {
+        background-color: var(--primary-color);
+        color: var(--text-light);
+        padding: 3rem 0;
+        margin-top: 4rem;
+    }
 
-        .footer-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
 
-        .footer-links a:hover {
-            color: var(--secondary-color);
-        }
+    .footer-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-        .social-icons a {
-            color: var(--text-light);
-            margin: 0 10px;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
+    .footer-links a:hover {
+        color: var(--secondary-color);
+    }
 
-        .social-icons a:hover {
-            color: var(--secondary-color);
-        }
-        
-        /* Estilos para controles de cantidad */
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-        }
-        
-        .quantity-controls button {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ddd;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        
-        .quantity-controls .quantity {
-            width: 40px;
-            text-align: center;
-            margin: 0 5px;
-        }
-        
-        /* Estilos para notificaciones */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-    </style>
+    .social-icons a {
+        color: var(--text-light);
+        margin: 0 10px;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+        color: var(--secondary-color);
+    }
+
+    /* Estilos para controles de cantidad */
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+    }
+
+    .quantity-controls button {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ddd;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .quantity-controls .quantity {
+        width: 40px;
+        text-align: center;
+        margin: 0 5px;
+    }
+
+    /* Estilos para notificaciones */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -204,13 +211,18 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/carrito">
-                            <i class="fas fa-shopping-cart"></i> Carrito (<span id="cartCount" th:text="${carritoCount}">0</span>)
+                            <i class="fas fa-shopping-cart"></i> Carrito (<span id="cartCount"
+                                th:text="${carritoCount}">0</span>)
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">
-                            <i class="fas fa-user"></i> Login
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Bienvenido, <span th:text="${#authentication.name}">Usuario</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item logout" href="/logout">Cerrar sesión</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -243,8 +255,9 @@
                         <tr th:each="producto : ${carrito.productos}">
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img th:if="${producto.mueble.imagen}" th:src="@{${producto.mueble.imagen}}" 
-                                         alt="Producto" style="width: 50px; height: 50px; object-fit: cover; margin-right: 1rem;">
+                                    <img th:if="${producto.mueble.imagen}" th:src="@{${producto.mueble.imagen}}"
+                                        alt="Producto"
+                                        style="width: 50px; height: 50px; object-fit: cover; margin-right: 1rem;">
                                     <span th:text="${producto.mueble.nombre}"></span>
                                 </div>
                             </td>
@@ -340,22 +353,22 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Botones para incrementar la cantidad
             document.querySelectorAll('.btn-increase').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     updateProductQuantity(productId, 1);
                 });
             });
-            
+
             // Botones para decrementar la cantidad
             document.querySelectorAll('.btn-decrease').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     const quantityElement = this.nextElementSibling;
                     const currentQuantity = parseInt(quantityElement.textContent);
-                    
+
                     if (currentQuantity > 1) {
                         updateProductQuantity(productId, -1);
                     } else {
@@ -363,15 +376,15 @@
                     }
                 });
             });
-            
+
             // Botones para eliminar un producto
             document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     deleteProduct(productId);
                 });
             });
-            
+
             // Función para actualizar la cantidad de un producto
             function updateProductQuantity(productId, change) {
                 fetch('/carrito/agregarProducto', {
@@ -381,33 +394,33 @@
                     },
                     body: `productoId=${productId}&cantidad=${change}`
                 })
-                .then(response => response.text())
-                .then(data => {
-                    // Buscar el elemento de cantidad correspondiente
-                    const quantityElement = document.querySelector(`.btn-increase[data-id="${productId}"]`)
-                                           .parentElement.querySelector('.quantity');
-                    let newQuantity = parseInt(quantityElement.textContent) + change;
-                    quantityElement.textContent = newQuantity;
-                    
-                    // Actualizar el total del producto
-                    const row = quantityElement.closest('tr');
-                    const priceElement = row.querySelector('td:nth-child(3)');
-                    const price = parseFloat(priceElement.textContent.replace('S/. ', ''));
-                    const totalElement = row.querySelector('.product-total');
-                    totalElement.textContent = `S/. ${(price * newQuantity).toFixed(2)}`;
-                    
-                    // Actualizar el total del carrito
-                    updateCartTotal();
-                    
-                    // Mostrar notificación
-                    showNotification(change > 0 ? 'Producto añadido al carrito' : 'Cantidad actualizada');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('Error al actualizar el carrito', true);
-                });
+                    .then(response => response.text())
+                    .then(data => {
+                        // Buscar el elemento de cantidad correspondiente
+                        const quantityElement = document.querySelector(`.btn-increase[data-id="${productId}"]`)
+                            .parentElement.querySelector('.quantity');
+                        let newQuantity = parseInt(quantityElement.textContent) + change;
+                        quantityElement.textContent = newQuantity;
+
+                        // Actualizar el total del producto
+                        const row = quantityElement.closest('tr');
+                        const priceElement = row.querySelector('td:nth-child(3)');
+                        const price = parseFloat(priceElement.textContent.replace('S/. ', ''));
+                        const totalElement = row.querySelector('.product-total');
+                        totalElement.textContent = `S/. ${(price * newQuantity).toFixed(2)}`;
+
+                        // Actualizar el total del carrito
+                        updateCartTotal();
+
+                        // Mostrar notificación
+                        showNotification(change > 0 ? 'Producto añadido al carrito' : 'Cantidad actualizada');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showNotification('Error al actualizar el carrito', true);
+                    });
             }
-            
+
             // Función para eliminar un producto
             function deleteProduct(productId) {
                 fetch('/carrito/eliminarProducto', {
@@ -417,27 +430,27 @@
                     },
                     body: `productoId=${productId}`
                 })
-                .then(response => response.text())
-                .then(data => {
-                    // Eliminar la fila de la tabla
-                    const row = document.querySelector(`.btn-delete[data-id="${productId}"]`).closest('tr');
-                    row.remove();
-                    
-                    // Actualizar el total del carrito
-                    updateCartTotal();
-                    
-                    // Actualizar contador del carrito en la navegación
-                    updateCartCount();
-                    
-                    // Mostrar notificación
-                    showNotification('Producto eliminado del carrito');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('Error al eliminar el producto', true);
-                });
+                    .then(response => response.text())
+                    .then(data => {
+                        // Eliminar la fila de la tabla
+                        const row = document.querySelector(`.btn-delete[data-id="${productId}"]`).closest('tr');
+                        row.remove();
+
+                        // Actualizar el total del carrito
+                        updateCartTotal();
+
+                        // Actualizar contador del carrito en la navegación
+                        updateCartCount();
+
+                        // Mostrar notificación
+                        showNotification('Producto eliminado del carrito');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showNotification('Error al eliminar el producto', true);
+                    });
             }
-            
+
             // Función para actualizar el total del carrito
             function updateCartTotal() {
                 let total = 0;
@@ -446,20 +459,20 @@
                 });
                 document.getElementById('cartTotal').textContent = `S/. ${total.toFixed(2)}`;
             }
-            
+
             // Función para actualizar el contador del carrito
             function updateCartCount() {
                 const count = document.querySelectorAll('.cart-table tbody tr').length;
                 document.getElementById('cartCount').textContent = count;
             }
-            
+
             // Función para mostrar notificaciones
             function showNotification(message, isError = false) {
                 const notification = document.getElementById('notification');
                 notification.textContent = message;
                 notification.style.backgroundColor = isError ? '#8B4513' : '#8B4513';
                 notification.style.display = 'block';
-                
+
                 // Ocultar la notificación después de 3 segundos
                 setTimeout(() => {
                     notification.style.display = 'none';
@@ -468,4 +481,5 @@
         });
     </script>
 </body>
+
 </html>
