@@ -9,7 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
      <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2251/2251911.png " type="image/x-icon">
-    <style>
+    
+</head>
+ <style>
         :root {
             --primary-color: #8B4513;
             --secondary-color: #DEB887;
@@ -138,8 +140,44 @@
         .social-icons a:hover {
             color: var(--secondary-color);
         }
+        
+        /* Estilos para controles de cantidad */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .quantity-controls .quantity {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+        }
+        
+        /* Estilos para notificaciones */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
     </style>
-</head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -166,7 +204,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/carrito">
-                            <i class="fas fa-shopping-cart"></i> Carrito (<span th:text="${carritoCount}">0</span>)
+                            <i class="fas fa-shopping-cart"></i> Carrito (<span id="cartCount" th:text="${carritoCount}">0</span>)
                         </a>
                     </li>
                     <li class="nav-item">
@@ -210,11 +248,17 @@
                                     <span th:text="${producto.mueble.nombre}"></span>
                                 </div>
                             </td>
-                            <td th:text="${producto.cantidad}"></td>
-                            <td th:text="'S/. ' + ${producto.precio}"></td>
-                            <td th:text="'S/. ' + ${producto.precio * producto.cantidad}"></td>
                             <td>
-                                <button class="btn btn-danger btn-sm">
+                                <div class="quantity-controls">
+                                    <button class="btn-decrease" th:data-id="${producto.mueble.id}">-</button>
+                                    <span class="quantity" th:text="${producto.cantidad}"></span>
+                                    <button class="btn-increase" th:data-id="${producto.mueble.id}">+</button>
+                                </div>
+                            </td>
+                            <td th:text="'S/. ' + ${producto.precio}"></td>
+                            <td class="product-total" th:text="'S/. ' + ${producto.precio * producto.cantidad}"></td>
+                            <td>
+                                <button class="btn btn-danger btn-sm btn-delete" th:data-id="${producto.mueble.id}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -229,7 +273,7 @@
                         <h3>Total del Carrito:</h3>
                     </div>
                     <div class="col-md-6 text-end">
-                        <h3 th:text="'S/. ' + ${carrito.total}"></h3>
+                        <h3 id="cartTotal" th:text="'S/. ' + ${carrito.total}"></h3>
                     </div>
                 </div>
             </div>
@@ -252,6 +296,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
 
     <!-- Footer -->
     <footer>
@@ -292,5 +339,133 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botones para incrementar la cantidad
+            document.querySelectorAll('.btn-increase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    updateProductQuantity(productId, 1);
+                });
+            });
+            
+            // Botones para decrementar la cantidad
+            document.querySelectorAll('.btn-decrease').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const quantityElement = this.nextElementSibling;
+                    const currentQuantity = parseInt(quantityElement.textContent);
+                    
+                    if (currentQuantity > 1) {
+                        updateProductQuantity(productId, -1);
+                    } else {
+                        showNotification('La cantidad mínima es 1');
+                    }
+                });
+            });
+            
+            // Botones para eliminar un producto
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    deleteProduct(productId);
+                });
+            });
+            
+            // Función para actualizar la cantidad de un producto
+            function updateProductQuantity(productId, change) {
+                fetch('/carrito/agregarProducto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productoId=${productId}&cantidad=${change}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Buscar el elemento de cantidad correspondiente
+                    const quantityElement = document.querySelector(`.btn-increase[data-id="${productId}"]`)
+                                           .parentElement.querySelector('.quantity');
+                    let newQuantity = parseInt(quantityElement.textContent) + change;
+                    quantityElement.textContent = newQuantity;
+                    
+                    // Actualizar el total del producto
+                    const row = quantityElement.closest('tr');
+                    const priceElement = row.querySelector('td:nth-child(3)');
+                    const price = parseFloat(priceElement.textContent.replace('S/. ', ''));
+                    const totalElement = row.querySelector('.product-total');
+                    totalElement.textContent = `S/. ${(price * newQuantity).toFixed(2)}`;
+                    
+                    // Actualizar el total del carrito
+                    updateCartTotal();
+                    
+                    // Mostrar notificación
+                    showNotification(change > 0 ? 'Producto añadido al carrito' : 'Cantidad actualizada');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error al actualizar el carrito', true);
+                });
+            }
+            
+            // Función para eliminar un producto
+            function deleteProduct(productId) {
+                fetch('/carrito/eliminarProducto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productoId=${productId}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Eliminar la fila de la tabla
+                    const row = document.querySelector(`.btn-delete[data-id="${productId}"]`).closest('tr');
+                    row.remove();
+                    
+                    // Actualizar el total del carrito
+                    updateCartTotal();
+                    
+                    // Actualizar contador del carrito en la navegación
+                    updateCartCount();
+                    
+                    // Mostrar notificación
+                    showNotification('Producto eliminado del carrito');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error al eliminar el producto', true);
+                });
+            }
+            
+            // Función para actualizar el total del carrito
+            function updateCartTotal() {
+                let total = 0;
+                document.querySelectorAll('.product-total').forEach(element => {
+                    total += parseFloat(element.textContent.replace('S/. ', ''));
+                });
+                document.getElementById('cartTotal').textContent = `S/. ${total.toFixed(2)}`;
+            }
+            
+            // Función para actualizar el contador del carrito
+            function updateCartCount() {
+                const count = document.querySelectorAll('.cart-table tbody tr').length;
+                document.getElementById('cartCount').textContent = count;
+            }
+            
+            // Función para mostrar notificaciones
+            function showNotification(message, isError = false) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.style.backgroundColor = isError ? '#8B4513' : '#8B4513';
+                notification.style.display = 'block';
+                
+                // Ocultar la notificación después de 3 segundos
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 </html>

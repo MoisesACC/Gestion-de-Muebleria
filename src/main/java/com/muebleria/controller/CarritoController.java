@@ -3,25 +3,18 @@ package com.muebleria.controller;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.muebleria.entity.Carrito;
 import com.muebleria.entity.Factura;
-import com.muebleria.entity.Mueble;
 import com.muebleria.entity.ProductoCarrito;
 import com.muebleria.entity.Usuario;
 import com.muebleria.repository.CarritoRepository;
@@ -29,8 +22,6 @@ import com.muebleria.repository.MuebleRepository;
 import com.muebleria.repository.UsuarioRepository;
 import com.muebleria.service.CarritoService;
 import com.muebleria.service.FacturaService;
-import com.muebleria.service.MuebleService;
-import com.muebleria.service.impl.MuebleServiceImpl;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -144,7 +135,38 @@ public class CarritoController {
 
         return "Producto eliminado del carrito";
     }
-
+    @PostMapping("/actualizarCantidad")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> actualizarCantidadProducto(
+            @RequestParam Long productoId,
+            @RequestParam int cantidad,
+            Principal principal) {
+        
+        String username = principal.getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            // Si cantidad es positiva, agregamos al carrito
+            // Si es negativa, la procesamos como una reducción
+            carritoService.agregarProductoAlCarrito(usuario, productoId, cantidad);
+            
+            // Recalcular el total
+            double total = carritoService.calcularTotalCarrito(usuario);
+            
+            response.put("success", true);
+            response.put("message", "Cantidad actualizada correctamente");
+            response.put("total", total);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error al actualizar la cantidad: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
     
 
 }
