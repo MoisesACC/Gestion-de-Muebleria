@@ -15,5 +15,6 @@ public interface ProductoCarritoRepository  extends JpaRepository<ProductoCarrit
     Optional<ProductoCarrito> findByCarritoAndMueble(Carrito carrito, Mueble mueble);
 
 	void deleteAllByCarrito(Carrito carrito);
+    
 
 }

@@ -25,7 +25,6 @@ import com.muebleria.service.FacturaService;
 
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/carrito")
 public class CarritoController {
@@ -41,17 +40,16 @@ public class CarritoController {
 
     @Autowired
     private MuebleRepository muebleRepository;
-    
+
     @Autowired
     private CarritoRepository carritoRepository;
 
-    
     @PostMapping("/agregarProducto")
-    @ResponseBody  // Esto asegura que el contenido se envíe como respuesta directa
-    public String agregarProductoAlCarrito(@RequestParam Long productoId, 
-                                           @RequestParam int cantidad, 
-                                           Principal principal, 
-                                           HttpSession session) {
+    @ResponseBody // Esto asegura que el contenido se envíe como respuesta directa
+    public String agregarProductoAlCarrito(@RequestParam Long productoId,
+            @RequestParam int cantidad,
+            Principal principal,
+            HttpSession session) {
         String username = principal.getName();
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el username: " + username));
@@ -65,7 +63,6 @@ public class CarritoController {
         // Retornar un mensaje de éxito
         return "Producto añadido al carrito";
     }
-    
 
     // Método para obtener la cantidad de productos en el carrito del usuario
     @GetMapping("/count")
@@ -96,9 +93,9 @@ public class CarritoController {
             carrito.setActivo(false);
             carritoRepository.save(carrito);
 
-            return "redirect:/factura/" + factura.getId();  // Redirige a la página de la factura
+            return "redirect:/factura/" + factura.getId(); // Redirige a la página de la factura
         } catch (Exception e) {
-            return "redirect:/carrito?error=true";  // Redirige en caso de error
+            return "redirect:/carrito?error=true"; // Redirige en caso de error
         }
     }
 
@@ -116,7 +113,8 @@ public class CarritoController {
         session.setAttribute("carrito", carrito);
 
         model.addAttribute("carrito", carrito);
-        model.addAttribute("totalProductos", carrito.getProductos().stream().mapToInt(ProductoCarrito::getCantidad).sum());
+        model.addAttribute("totalProductos",
+                carrito.getProductos().stream().mapToInt(ProductoCarrito::getCantidad).sum());
         return "carrito";
     }
 
@@ -135,39 +133,54 @@ public class CarritoController {
 
         return "Producto eliminado del carrito";
     }
+
     @PostMapping("/actualizarCantidad")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> actualizarCantidadProducto(
             @RequestParam Long productoId,
             @RequestParam int cantidad,
             Principal principal) {
-        
+
         String username = principal.getName();
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-    
+
         Map<String, Object> response = new HashMap<>();
-        
+
         try {
             // Si cantidad es positiva, agregamos al carrito
             // Si es negativa, la procesamos como una reducción
             carritoService.agregarProductoAlCarrito(usuario, productoId, cantidad);
-            
+
             // Recalcular el total
             double total = carritoService.calcularTotalCarrito(usuario);
-            
+
             response.put("success", true);
             response.put("message", "Cantidad actualizada correctamente");
             response.put("total", total);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "Error al actualizar la cantidad: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
+
     }
-    
+
+    @PostMapping("/vaciar")
+    public String vaciarCarrito(Principal principal, HttpSession session) {
+        String username = principal.getName();
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        carritoService.vaciarCarrito(usuario);
+
+        // Refrescar el carrito vacío en la sesión
+        Carrito carrito = carritoService.obtenerCarritoPorUsuario(usuario);
+        session.setAttribute("carrito", carrito);
+
+        return "redirect:/carrito"; // Redirige al carrito vacío
+    }
 
 }
-

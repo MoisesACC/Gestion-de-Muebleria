@@ -93,21 +93,22 @@ public class CarritoServiceImpl implements CarritoService {
         ProductoCarrito productoCarrito = productoCarritoRepository.findByCarritoAndMueble(carrito, mueble)
                 .orElseThrow(() -> new RuntimeException("Producto no está en el carrito"));
 
+
+        carrito.getProductos().remove(productoCarrito); 
         // Eliminar el producto del carrito
         productoCarritoRepository.delete(productoCarrito);
 
         // Recalcular el total del carrito
         double nuevoTotal = carrito.getProductos().stream()
-            .filter(p -> !p.getMueble().getId().equals(productoId)) // Excluir el producto eliminado
-            .mapToDouble(p -> p.getPrecio() * p.getCantidad())
-            .sum();
+                .filter(p -> !p.getMueble().getId().equals(productoId)) // Excluir el producto eliminado
+                .mapToDouble(p -> p.getPrecio() * p.getCantidad())
+                .sum();
 
         carrito.setTotal(nuevoTotal);
 
         // Guardar el carrito actualizado
         carritoRepository.save(carrito);
     }
-
 
     @Override
     public void vaciarCarrito(Usuario usuario) {
@@ -133,6 +134,5 @@ public class CarritoServiceImpl implements CarritoService {
                 .mapToDouble(p -> p.getPrecio() * p.getCantidad())
                 .sum();
     }
-
 
 }
